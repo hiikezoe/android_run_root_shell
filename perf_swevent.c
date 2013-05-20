@@ -145,6 +145,7 @@ perf_swevent_write_value_at_address(unsigned long int address, int value)
       return 0;
     }
     read(child_fd, buffer, sizeof(buffer));
+    close(child_fd);
     child_process[current_process_number] = pid;
     current_process_number++;
   }
@@ -157,6 +158,7 @@ perf_swevent_write_value_at_address(unsigned long int address, int value)
       return 0;
     }
     read(child_fd, buffer, sizeof(buffer));
+    close(child_fd);
     child_process[current_process_number] = pid;
   }
 
