@@ -21,8 +21,8 @@ typedef struct _supported_device {
 } supported_device;
 
 static supported_device supported_devices[] = {
-  { "F-11D",            "V24R40A"   , 0xc08ff1f4 },
-  { "URBANO PROGRESSO", "010.0.3000", 0xc091b9cc },
+  { "F-11D",            "V24R40A"   ,         0xc08ff1f4 },
+  { "URBANO PROGRESSO", "010.0.3000",         0xc091b9cc },
   { "SCL21",            "IMM76D.SCL21KDALJD", 0xc0b6a684 },
 };
 
