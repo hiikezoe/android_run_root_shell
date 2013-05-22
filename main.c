@@ -18,6 +18,8 @@ typedef struct _supported_device {
   const char *device;
   const char *build_id;
   unsigned long int ashmem_write_address;
+  unsigned long int prepare_kernel_cred_address;
+  unsigned long int commit_creds_address;
 } supported_device;
 
 static supported_device supported_devices[] = {
@@ -28,28 +30,6 @@ static supported_device supported_devices[] = {
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
-
-static unsigned long int
-get_ashmem_write_address(void)
-{
-  int i;
-  char device[PROP_VALUE_MAX];
-  char build_id[PROP_VALUE_MAX];
-
-  __system_property_get("ro.product.model", device);
-  __system_property_get("ro.build.display.id", build_id);
-
-  for (i = 0; i < n_supported_devices; i++) {
-    if (!strcmp(device, supported_devices[i].device) &&
-        !strcmp(build_id, supported_devices[i].build_id)) {
-      return supported_devices[i].ashmem_write_address;
-    }
-  }
-
-  printf("%s (%s) is not supported.\n", device, build_id);
-
-  return 0;
-}
 
 static void *
 get_symbol_address(const char *symbol_name)
@@ -75,6 +55,48 @@ get_symbol_address(const char *symbol_name)
   fclose(fp);
 
   return NULL;
+}
+
+static bool
+setup_addresses(void **ashmem_write_address, void **prepare_kernel_cred_address, void **commit_creds_address)
+{
+  int i;
+  char device[PROP_VALUE_MAX];
+  char build_id[PROP_VALUE_MAX];
+
+  *ashmem_write_address = NULL;
+  *prepare_kernel_cred_address = NULL;
+  *commit_creds_address == NULL;
+
+  __system_property_get("ro.product.model", device);
+  __system_property_get("ro.build.display.id", build_id);
+
+  for (i = 0; i < n_supported_devices; i++) {
+    if (!strcmp(device, supported_devices[i].device) &&
+        !strcmp(build_id, supported_devices[i].build_id)) {
+      *ashmem_write_address = (void *)supported_devices[i].ashmem_write_address;
+      *prepare_kernel_cred_address = (void *)supported_devices[i].prepare_kernel_cred_address;
+      *commit_creds_address = (void *)supported_devices[i].commit_creds_address;
+      break;
+    }
+  }
+
+  if (*ashmem_write_address == NULL) {
+    return false;
+  }
+
+  if (*prepare_kernel_cred_address == NULL)
+    *prepare_kernel_cred_address = get_symbol_address("prepare_kernel_cred");
+
+  if (*commit_creds_address == NULL)
+    *commit_creds_address = get_symbol_address("commit_creds");
+
+  if (*ashmem_write_address == NULL || *prepare_kernel_cred_address == NULL || *commit_creds_address == NULL) {
+    printf("%s (%s) is not supported.\n", device, build_id);
+    return false;
+  }
+
+  return true;
 }
 
 struct cred;
@@ -144,11 +166,11 @@ main(int argc, char **argv)
   int fd;
   bool success;
 
-  prepare_kernel_cred = get_symbol_address("prepare_kernel_cred");
-  commit_creds = get_symbol_address("commit_creds");
+  if (!setup_addresses((void **)&address, (void **)&prepare_kernel_cred, (void **)&commit_creds)) {
+    printf("prepare_kernel_cred = %p\n", prepare_kernel_cred);
+    printf("commit_creds = %p\n", commit_creds);
+    printf("ashmem_write_address = 0x%08x\n", address);
 
-  address = get_ashmem_write_address();
-  if (!address) {
     exit(EXIT_FAILURE);
   }
 
