@@ -154,6 +154,7 @@ main(int argc, char **argv)
 
   success = attempt_diag_exploit(address);
   if (!success) {
+    printf("\nAttempt perf_swevent exploit...\n");
     success = attempt_perf_swevent_exploit(address);
   }
 
