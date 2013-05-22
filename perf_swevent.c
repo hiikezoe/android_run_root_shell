@@ -11,6 +11,8 @@
 #include <sys/wait.h>
 #include "perf_swevent.h"
 
+#define PERF_SWEVENT_MAX_FILE 980
+
 typedef struct _supported_device {
   const char *device;
   const char *build_id;
@@ -124,7 +126,7 @@ increment_address_value_in_child_process(unsigned long int address, int count, i
 }
 
 #define BUFFER_SIZE 5
-pid_t
+int
 perf_swevent_write_value_at_address(unsigned long int address, int value)
 {
   int i;
@@ -160,9 +162,10 @@ perf_swevent_write_value_at_address(unsigned long int address, int value)
     read(child_fd, buffer, sizeof(buffer));
     close(child_fd);
     child_process[current_process_number] = pid;
+    current_process_number++;
   }
 
-  return pid;
+  return current_process_number;
 }
 
 void
@@ -171,8 +174,13 @@ perf_swevent_reap_child_process(int number)
   int i;
 
   for (i = 0; i < number; i++) {
-    int status;
     kill(child_process[i], SIGKILL);
+  }
+
+  sleep(1);
+
+  for (i = 0; i < number; i++) {
+    int status;
     waitpid(child_process[i], &status, WNOHANG);
   }
 
