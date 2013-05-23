@@ -115,6 +115,7 @@ increment_address_value_in_child_process(unsigned long int address, int count, i
   }
 
   offset = (int)(address - perf_swevent_enabled) / 4;
+  offset |= 0x80000000;
 
   pid = prepare_pipes(child_fd);
   if (pid == 0) {
