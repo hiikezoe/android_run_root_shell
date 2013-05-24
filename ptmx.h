@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#ifndef PTMXS_H
-#define PTMXS_H
+#ifndef PTMX_H
+#define PTMX_H
 
 unsigned long int get_ptmx_fops_address(void);
 
-#endif /* PTMXS_H */
+#endif /* PTMX_H */
 /*
 vi:ts=2:nowrap:ai:expandtab:sw=2
 */
