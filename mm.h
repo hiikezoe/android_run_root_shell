@@ -18,6 +18,8 @@
 #ifndef MM_H
 #define MM_H
 
+struct file;
+
 typedef struct {
   unsigned long pgprot;
 } pgprot_t;
@@ -34,6 +36,9 @@ int (*remap_pfn_range)(struct vm_area_struct *, unsigned long addr,
                        unsigned long pfn, unsigned long size, pgprot_t);
 
 void *get_remap_pfn_range_address(void);
+
+void set_kernel_phys_offset(unsigned long int offset);
+int ptmx_mmap(struct file *filep, struct vm_area_struct *vma);
 
 #endif /* MM_H */
 /*

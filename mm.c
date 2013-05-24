@@ -48,3 +48,22 @@ get_remap_pfn_range_address(void)
   }
   return (void*)_get_remap_pfn_range_address();
 }
+
+static unsigned long int kernel_phys_offset = 0;
+
+void
+set_kernel_phys_offset(unsigned long int offset)
+{
+  kernel_phys_offset = offset;
+}
+
+#define PAGE_SHIFT  12
+
+int
+ptmx_mmap(struct file *filep, struct vm_area_struct *vma)
+{
+  return remap_pfn_range(vma, vma->vm_start,
+                         kernel_phys_offset >> PAGE_SHIFT,
+                         vma->vm_end - vma->vm_start, vma->vm_page_prot);
+}
+
