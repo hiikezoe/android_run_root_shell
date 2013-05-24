@@ -58,7 +58,6 @@ main(int argc, char **argv)
 {
   unsigned long int ptmx_fsync_address;
   unsigned long int ptmx_fops_address;
-  int fd;
   bool success;
 
   set_kernel_phys_offset(0x200000);
