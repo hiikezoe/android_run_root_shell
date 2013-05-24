@@ -56,10 +56,9 @@ setup_creds_functions(void)
   if (kallsyms_exist()) {
     prepare_kernel_cred = kallsyms_get_symbol_address("prepare_kernel_cred");
     commit_creds = kallsyms_get_symbol_address("commit_creds");
-  } else {
-    get_creds_functions_addresses((void**)&prepare_kernel_cred, (void**)&commit_creds);
+    return true;
   }
 
-  return prepare_kernel_cred && commit_creds;
+  return get_creds_functions_addresses((void**)&prepare_kernel_cred, (void**)&commit_creds);
 }
 
