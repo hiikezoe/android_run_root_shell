@@ -44,7 +44,7 @@ void *
 get_remap_pfn_range_address(void)
 {
   if (kallsyms_exist()) {
-    return kallsyms_get_symbol_address("remap_pfn_range_address");
+    return kallsyms_get_symbol_address("remap_pfn_range");
   }
   return (void*)_get_remap_pfn_range_address();
 }
