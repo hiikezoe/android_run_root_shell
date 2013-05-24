@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "creds.h"
+#include "cred.h"
 #include "kallsyms.h"
 
 typedef struct _supported_device {

@@ -11,7 +11,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "creds.h"
+#include "cred.h"
 #include "perf_swevent.h"
 #include "libdiagexploit/diag.h"
 
