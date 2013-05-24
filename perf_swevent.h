@@ -18,6 +18,8 @@
 #ifndef PERF_SWEVENT_H
 #define PERF_SWEVENT_H
 
+#include <stdbool.h>
+
 int perf_swevent_write_value_at_address(unsigned long int address, int value);
 void perf_swevent_reap_child_process(int number_of_children);
 bool perf_swevent_run_exploit(unsigned long int address, int value,
