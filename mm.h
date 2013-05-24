@@ -33,7 +33,7 @@ struct vm_area_struct {
 int (*remap_pfn_range)(struct vm_area_struct *, unsigned long addr,
                        unsigned long pfn, unsigned long size, pgprot_t);
 
-unsigned long int get_remap_pfn_range_address(void);
+void *get_remap_pfn_range_address(void);
 
 #endif /* MM_H */
 /*

@@ -40,11 +40,11 @@ _get_remap_pfn_range_address(void)
   return 0;
 }
 
-unsigned long int
+void *
 get_remap_pfn_range_address(void)
 {
   if (kallsyms_exist()) {
     return kallsyms_get_symbol_address("remap_pfn_range_address");
   }
-  return _get_remap_pfn_range_address();
+  return (void*)_get_remap_pfn_range_address();
 }
