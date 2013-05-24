@@ -7,7 +7,8 @@ LOCAL_SRC_FILES := \
   kallsyms.c \
   main.c \
   mm.c \
-  perf_swevent.c
+  perf_swevent.c \
+  ptmx.c
 
 LOCAL_MODULE := run_root_shell
 LOCAL_MODULE_TAGS := optional
