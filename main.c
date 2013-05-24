@@ -78,8 +78,6 @@ run_exploit(void)
 int
 main(int argc, char **argv)
 {
-  bool success;
-
   set_kernel_phys_offset(0x200000);
   remap_pfn_range = get_remap_pfn_range_address();
   if (!remap_pfn_range) {
