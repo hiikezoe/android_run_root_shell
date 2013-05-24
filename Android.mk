@@ -6,6 +6,7 @@ LOCAL_SRC_FILES := \
   cred.c \
   kallsyms.c \
   main.c \
+  mm.c \
   perf_swevent.c
 
 LOCAL_MODULE := run_root_shell
