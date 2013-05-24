@@ -29,6 +29,7 @@ static supported_device supported_devices[] = {
   { "URBANO PROGRESSO", "010.0.3000", 0xc0db6244 },
   { "ISW13F",           "V69R51I"   , 0xc09de374 },
   { "Sony Tablet P",    "TISU0144"  , 0xc06d9914 },
+  { "SH-04E",           "01.00.02"  , 0xc0ed41ec },
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
