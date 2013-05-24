@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "creds.h"
+#include "kallsyms.h"
 
 typedef struct _supported_device {
   const char *device;
@@ -49,49 +50,12 @@ get_creds_functions_addresses(void **prepare_kernel_cred_address, void **commit_
   return false;
 }
 
-static void *
-get_symbol_address(const char *symbol_name)
-{
-  FILE *fp;
-  char function[BUFSIZ];
-  char symbol;
-  void *address;
-  int ret;
-
-  fp = fopen("/proc/kallsyms", "r");
-  if (!fp) {
-    printf("Failed to open /proc/kallsyms due to %s.", strerror(errno));
-    return 0;
-  }
-
-  while((ret = fscanf(fp, "%p %c %s", &address, &symbol, function)) != EOF) {
-    if (!strcmp(function, symbol_name)) {
-      fclose(fp);
-      return address;
-    }
-  }
-  fclose(fp);
-
-  return NULL;
-}
-
-static bool
-has_kallsyms(void)
-{
-  struct stat st;
-
-  if (stat("/proc/kallsyms", &st) < 0) {
-    return false;
-  }
-  return st.st_mode & S_IROTH;
-}
-
 bool
 setup_creds_functions(void)
 {
-  if (has_kallsyms()) {
-    prepare_kernel_cred = get_symbol_address("prepare_kernel_cred");
-    commit_creds = get_symbol_address("commit_creds");
+  if (kallsyms_exist()) {
+    prepare_kernel_cred = kallsyms_get_symbol_address("prepare_kernel_cred");
+    commit_creds = kallsyms_get_symbol_address("commit_creds");
   } else {
     get_creds_functions_addresses((void**)&prepare_kernel_cred, (void**)&commit_creds);
   }
