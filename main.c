@@ -28,7 +28,7 @@ run_obtain_root_privilege(void *user_data)
 {
   int fd;
 
-  fd = open("/dev/ptmx", O_WRONLY);
+  fd = open(PTMX_DEVICE, O_WRONLY);
   fsync(fd);
   close(fd);
 

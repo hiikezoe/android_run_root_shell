@@ -18,6 +18,8 @@
 #ifndef PTMX_H
 #define PTMX_H
 
+#define PTMX_DEVICE "/dev/ptmx"
+
 unsigned long int get_ptmx_fops_address(void);
 
 #endif /* PTMX_H */

@@ -112,7 +112,7 @@ find_creds_functions_with_mmap(void *user_data)
   void *address;
   void *start_address = (void*) 0x10000000;
 
-  fd = open("/dev/ptmx", O_RDWR);
+  fd = open(PTMX_DEVICE, O_RDWR);
   address = mmap(start_address, KERNEL_SIZE,
                  PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED,
                  fd, 0);
