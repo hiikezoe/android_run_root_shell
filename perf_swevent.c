@@ -28,6 +28,7 @@ static supported_device supported_devices[] = {
   { "IS17SH",           "01.00.04"  , 0xc0ecbebc },
   { "URBANO PROGRESSO", "010.0.3000", 0xc0db6244 },
   { "ISW13F",           "V69R51I"   , 0xc09de374 },
+  { "Sony Tablet S",    "TISU0143"  , 0xc06d7714 },
   { "Sony Tablet P",    "TISU0144"  , 0xc06d9914 },
   { "SH-04E",           "01.00.02"  , 0xc0ed41ec },
 };
