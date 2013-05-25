@@ -16,9 +16,14 @@ static supported_device supported_devices[] = {
   { "F-11D",            "V24R40A"   ,         0xc1056998 },
   { "URBANO PROGRESSO", "010.0.3000",         0xc0dc0a10 },
   { "SCL21",            "IMM76D.SCL21KDALJD", 0xc0c71dc0 },
-  { "ISW13F",           "V69R51I",            0xc092e484 },
-  { "IS17SH",           "01.00.04",           0xc0a407bc },
-  { "Sony Tablet P",    "TISU0144",           0xc0671944 },
+
+  // ptmx_fops is 0xc09fc5fc but it doesn't work (kernel 2.6.39.4)
+  { "ISW13F",           "V69R51I",            0xc09fc5fc + 4 },
+
+  { "IS17SH",           "01.00.04",           0xc0edae90 },
+  { "Sony Tablet S",    "TISU0143",           0xc06e0d18 },
+  { "Sony Tablet P",    "TISU0144",           0xc06e2f20 },
+  { "SH-04E",           "01.00.02",           0xc0eed190 },
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
