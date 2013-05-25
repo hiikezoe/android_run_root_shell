@@ -179,10 +179,10 @@ setup_creds_functions(void)
     return true;
   }
 
-  if (find_creds_functions_in_memory()) {
+  if (get_creds_functions_addresses((void**)&prepare_kernel_cred, (void**)&commit_creds)) {
     return true;
   }
 
-  return get_creds_functions_addresses((void**)&prepare_kernel_cred, (void**)&commit_creds);
+  return find_creds_functions_in_memory();
 }
 
