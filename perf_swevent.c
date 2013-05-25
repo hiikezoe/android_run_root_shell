@@ -24,13 +24,15 @@ typedef struct _supported_device {
 } supported_device;
 
 static supported_device supported_devices[] = {
-  { "F-11D",            "V24R40A"   , 0xc104cf1c },
-  { "IS17SH",           "01.00.04"  , 0xc0ecbebc },
-  { "URBANO PROGRESSO", "010.0.3000", 0xc0db6244 },
-  { "ISW13F",           "V69R51I"   , 0xc09de374 },
-  { "Sony Tablet S",    "TISU0143"  , 0xc06d7714 },
-  { "Sony Tablet P",    "TISU0144"  , 0xc06d9914 },
-  { "SH-04E",           "01.00.02"  , 0xc0ed41ec },
+  { "F-11D",            "V24R40A",     0xc104cf1c },
+  { "IS17SH",           "01.00.04",    0xc0ecbebc },
+  { "URBANO PROGRESSO", "010.0.3000",  0xc0db6244 },
+  { "ISW13F",           "V69R51I",     0xc09de374 },
+  { "Sony Tablet S",    "TISU0143",    0xc06d7714 },
+  { "Sony Tablet P",    "TISU0144",    0xc06d9914 },
+  { "SH-04E",           "01.00.02",    0xc0ed41ec },
+  { "SOL21",            "9.1.D.0.395", 0xc0cedfb4 },
+  { "HTL21",            "JRO03C",      0xc0d07a7c },
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
