@@ -14,7 +14,12 @@ kallsyms_exist(void)
   if (stat("/proc/kallsyms", &st) < 0) {
     return false;
   }
-  return st.st_mode & S_IROTH;
+
+  if  (st.st_mode & S_IROTH) {
+    return kallsyms_get_symbol_address("_stext") != 0;
+  }
+
+  return false;
 }
 
 void *

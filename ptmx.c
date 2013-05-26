@@ -24,6 +24,8 @@ static supported_device supported_devices[] = {
   { "Sony Tablet S",    "TISU0143",           0xc06e0d18 },
   { "Sony Tablet P",    "TISU0144",           0xc06e2f20 },
   { "SH-04E",           "01.00.02",           0xc0eed190 },
+  { "SOL21",            "9.1.D.0.395",        0xc0d030c8 },
+  { "HTL21",            "JRO03C",             0xc0d1d944 },
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
