@@ -136,13 +136,12 @@ increment_address_value_in_child_process(unsigned long int address, int count, i
   return pid;
 }
 
+#define MIN(x,y) (((x)<(y))?(x):(y))
 #define BUFFER_SIZE 5
 int
 perf_swevent_write_value_at_address(unsigned long int address, int value)
 {
-  int i;
   int number_of_children;
-  pid_t pid;
 
   printf("writing address is %x\n", value);
 
@@ -150,10 +149,11 @@ perf_swevent_write_value_at_address(unsigned long int address, int value)
   number_of_children = value / PERF_SWEVENT_MAX_FILE + 1;
   child_process = (pid_t*)malloc(number_of_children * sizeof(pid_t));
 
-  for (i = 0; i < value / PERF_SWEVENT_MAX_FILE; i++) {
+  while (value > 0) {
     char buffer[BUFFER_SIZE];
     int child_fd;
-    pid = increment_address_value_in_child_process(address, PERF_SWEVENT_MAX_FILE, &child_fd);
+    int min = MIN(value, PERF_SWEVENT_MAX_FILE);
+    pid_t pid = increment_address_value_in_child_process(address, min, &child_fd);
     if (pid <= 0) {
       return (int)pid;
     }
@@ -161,19 +161,7 @@ perf_swevent_write_value_at_address(unsigned long int address, int value)
     close(child_fd);
     child_process[current_process_number] = pid;
     current_process_number++;
-  }
-
-  if (value % PERF_SWEVENT_MAX_FILE) {
-    char buffer[BUFFER_SIZE];
-    int child_fd;
-    pid = increment_address_value_in_child_process(address, value % PERF_SWEVENT_MAX_FILE, &child_fd);
-    if (pid <= 0) {
-      return (int)pid;
-    }
-    read(child_fd, buffer, sizeof(buffer));
-    close(child_fd);
-    child_process[current_process_number] = pid;
-    current_process_number++;
+    value -= PERF_SWEVENT_MAX_FILE;
   }
 
   return current_process_number;
