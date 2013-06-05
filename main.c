@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <sys/system_properties.h>
 #define _LARGEFILE64_SOURCE
 #include <sys/types.h>
 #include <unistd.h>
