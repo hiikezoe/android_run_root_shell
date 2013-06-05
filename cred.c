@@ -11,10 +11,10 @@
 
 #include "cred.h"
 #include "mm.h"
-#include "perf_swevent.h"
 #include "ptmx.h"
 #include "libdiagexploit/diag.h"
 #include "kallsyms.h"
+#include "libperf_event_exploit/perf_event.h"
 
 typedef struct _supported_device {
   const char *device;

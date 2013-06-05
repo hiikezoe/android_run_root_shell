@@ -13,9 +13,9 @@
 
 #include "cred.h"
 #include "mm.h"
-#include "perf_swevent.h"
 #include "ptmx.h"
 #include "libdiagexploit/diag.h"
+#include "libperf_event_exploit/perf_event.h"
 
 void
 obtain_root_privilege(void)

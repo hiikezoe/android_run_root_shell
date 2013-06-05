@@ -4,3 +4,6 @@
 [submodule "device_database"]
 	path = device_database
 	url = git://github.com/fi01/android_device_database.git
+[submodule "libperf_event_exploit"]
+	path = libperf_event_exploit
+	url = git@github.com:hiikezoe/libperf_event_exploit.git
