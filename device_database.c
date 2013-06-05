@@ -20,6 +20,7 @@ static supported_device supported_devices[] = {
   { DEVICE_L02E_V10c,               "L-02E",            "IMM76L",             "L02E10c.1354024955" },
   { DEVICE_L02E_V10e,               "L-02E",            "IMM76L",             "L02E10e.1366099439" },
   { DEVICE_L06D_V10k,               "L-06D",            "IMM76D",             "L06DV10k.4821c158" },
+  { DEVICE_N05E_A1000311,           "N05E",             "A1000311",           NULL },
   { DEVICE_SC04E_OMUAMDI,           "SC-04E"            "JDQ39.SC04EOMUAMDI", NULL },
   { DEVICE_SCL21_KDALJD,            "SCL21",            "IMM76D.SCL21KDALJD", NULL },
   { DEVICE_SH04E_01_00_02,          "SH-04E",           "01.00.02",           NULL },
