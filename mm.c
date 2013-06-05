@@ -1,23 +1,18 @@
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/system_properties.h>
-
 #include "kallsyms.h"
 #include "mm.h"
+#include "device_database/device_database.h"
 
 typedef struct _supported_device {
-  const char *device;
-  const char *build_id;
+  device_id_t device_id;
   unsigned long int remap_pfn_range_address;
 } supported_device;
 
 static supported_device supported_devices[] = {
-  { "IS17SH", "01.00.04",    0xc0208a34 },
-  { "SH-04E", "01.00.02",    0xc00e458c },
-  { "SOL21",  "9.1.D.0.395", 0xc010e33c },
-  { "HTL21",  "JRO03C",      0xc00ff32c },
-  { "N-05E",  "A1000311",    0xc0105800 }
+  { DEVICE_IS17SH_01_00_04,    0xc0208a34 },
+  { DEVICE_SH04E_01_00_02,     0xc00e458c },
+  { DEVICE_SOL21_9_1_D_0_395,  0xc010e33c },
+  { DEVICE_HTL21_JRO03C,       0xc00ff32c },
+  { DEVICE_N05E_A1000311,      0xc0105800 }
 };
 
 static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
@@ -26,20 +21,17 @@ unsigned long int
 _get_remap_pfn_range_address(void)
 {
   int i;
-  char device[PROP_VALUE_MAX];
-  char build_id[PROP_VALUE_MAX];
+  device_id_t device_id;
 
-  __system_property_get("ro.product.model", device);
-  __system_property_get("ro.build.display.id", build_id);
+  device_id = detect_device();
 
   for (i = 0; i < n_supported_devices; i++) {
-    if (!strcmp(device, supported_devices[i].device) &&
-        !strcmp(build_id, supported_devices[i].build_id)) {
+    if (supported_devices[i].device_id == device_id){
       return supported_devices[i].remap_pfn_range_address;
     }
   }
 
-  printf("%s (%s) is not supported.\n", device, build_id);
+  print_reason_device_not_supported();
 
   return 0;
 }
