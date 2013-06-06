@@ -7,11 +7,14 @@ typedef struct _supported_device {
 } supported_device;
 
 static supported_device supported_devices[] = {
+  // F10D: Fujitsu added a method in struct file_operations
+  { DEVICE_F10D_V21R48A,           0xc09a60dc + 4 },
+
   { DEVICE_F11D_V24R40A,           0xc1056998 },
   { DEVICE_ISW12K_010_0_3000,      0xc0dc0a10 },
   { DEVICE_SCL21_KDALJD,           0xc0c71dc0 },
 
-  // ptmx_fops is 0xc09fc5fc but it doesn't work (kernel 2.6.39.4)
+  // ISW13F: Fujitsu added a method in struct file_operations
   { DEVICE_ISW13F_V69R51I,         0xc09fc5fc + 4 },
 
   { DEVICE_IS17SH_01_00_04,        0xc0edae90 },
