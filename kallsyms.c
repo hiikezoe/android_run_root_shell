@@ -37,7 +37,12 @@ kallsyms_get_symbol_address(const char *symbol_name)
     return 0;
   }
 
-  while((ret = fscanf(fp, "%p %c %s", &address, &symbol, function)) != EOF) {
+  while(!feof(fp)) {
+    ret = fscanf(fp, "%p %c %s", &address, &symbol, function);
+    if (ret != 3) {
+      break;
+    }
+
     if (!strcmp(function, symbol_name)) {
       fclose(fp);
       return address;
