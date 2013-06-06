@@ -38,12 +38,20 @@ get_ptmx_fops_address(void)
   device_id = detect_device();
 
   for (i = 0; i < n_supported_devices; i++) {
-    if (supported_devices[i].device_id == device_id){
+    if (supported_devices[i].device_id == device_id) {
       return supported_devices[i].ptmx_fops_address;
     }
   }
 
-  print_reason_device_not_supported();
+  if (kallsyms_exist()) {
+    unsigned long int address;
 
+    address = kallsyms_get_symbol_address("ptmx_fops");
+    if (address) {
+      return address;
+    }
+  }
+
+  print_reason_device_not_supported();
   return 0;
 }
