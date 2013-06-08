@@ -13,6 +13,8 @@ static supported_device supported_devices[] = {
   { DEVICE_F10D_V21R48A,            "F-10D",            "V21R48A",            NULL },
   { DEVICE_F11D_V24R40A,            "F-11D",            "V24R40A",            NULL },
   { DEVICE_HTL21_JRO03C,            "HTL21",            "JRO03C",             NULL },
+  { DEVICE_HTL22_JZO54K,            "HTL22",            "JZO54K",             NULL },
+  { DEVICE_HTX21_JRO03C,            "HTX21",            "JRO03C",             NULL },
   { DEVICE_IS17SH_01_00_04,         "IS17SH",           "01.00.04",           NULL },
   { DEVICE_ISW12K_010_0_3000,       "URBANO PROGRESSO", "010.0.3000",         NULL },
   { DEVICE_ISW13F_V69R51I,          "ISW13F",           "V69R51I",            NULL },
