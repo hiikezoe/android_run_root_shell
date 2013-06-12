@@ -11,10 +11,13 @@ static supported_device supported_devices[] = {
   { DEVICE_IS17SH_01_00_04,    0xc0208a34 },
   { DEVICE_SH04E_01_00_02,     0xc00e458c },
   { DEVICE_SH04E_01_00_03,     0xc00e46bc },
+  { DEVICE_SO01E_9_1_C_0_473,  0xc010e1f4 },
   { DEVICE_SOL21_9_1_D_0_395,  0xc010e33c },
-  { DEVICE_HTL21_JRO03C,       0xc00ff32c },
-  { DEVICE_HTL22_JZO54K,       0xc0128b10 },
-  { DEVICE_HTX21_JRO03C,       0xc00fa8b0 },
+  { DEVICE_HTL21_1_29_970_1,   0xc00ff32c },
+  { DEVICE_HTL22_1_05_970_1,   0xc0128b10 },
+  { DEVICE_HTL22_1_07_970_4,   0xc0128b28 },
+  { DEVICE_HTX21_1_20_971_1,   0xc00fa8b0 },
+  { DEVICE_LT26W_1266_3278_6_2_B_0_200, 0xc0136294 },
   { DEVICE_N05E_A1000311,      0xc0105800 }
 };
 

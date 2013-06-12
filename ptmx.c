@@ -22,11 +22,14 @@ static supported_device supported_devices[] = {
   { DEVICE_SONYTABLET_P_RELEASE5A, 0xc06e6da0 },
   { DEVICE_SH04E_01_00_02,         0xc0eed190 },
   { DEVICE_SH04E_01_00_03,         0xc0eed190 },
+  { DEVICE_SO01E_9_1_C_0_473,      0xc0d03208 },
   { DEVICE_SO04D_7_0_D_1_137,      0xc0c9d8a0 },
   { DEVICE_SOL21_9_1_D_0_395,      0xc0d030c8 },
-  { DEVICE_HTL21_JRO03C,           0xc0d1d944 },
-  { DEVICE_HTL22_JZO54K,           0xc0df467c },
-  { DEVICE_HTX21_JRO03C,           0xc0ccc0b4 },
+  { DEVICE_HTL21_1_29_970_1,       0xc0d1d944 },
+  { DEVICE_HTL22_1_05_970_1,       0xc0df467c },
+  { DEVICE_HTL22_1_07_970_4,       0xc0df52bc },
+  { DEVICE_HTX21_1_20_971_1,       0xc0ccc0b4 },
+  { DEVICE_LT26W_1266_3278_6_2_B_0_200, 0xc0cc3dc0 },
   { DEVICE_N05E_A1000311,          0xc0f58700 },
 };
 
