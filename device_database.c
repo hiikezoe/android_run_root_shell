@@ -30,6 +30,7 @@ static supported_device supported_devices[] = {
   { DEVICE_SCL21_KDALJD,            "SCL21",            "IMM76D.SCL21KDALJD" },
   { DEVICE_SH04E_01_00_02,          "SH-04E",           "01.00.02"           },
   { DEVICE_SH04E_01_00_03,          "SH-04E",           "01.00.03"           },
+  { DEVICE_SO01E_9_1_C_0_473,       "SO-01E",           "9.1.C.0.473"        },
   { DEVICE_SO04D_7_0_D_1_137,       "SO-04D",           "7.0.D.1.137"        },
   { DEVICE_SO05D_7_0_D_1_137,       "SO-05D",           "7.0.D.1.137"        },
   { DEVICE_SOL21_9_1_D_0_395,       "SOL21",            "9.1.D.0.395"        },
