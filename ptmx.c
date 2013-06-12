@@ -26,6 +26,7 @@ static supported_device supported_devices[] = {
   { DEVICE_SOL21_9_1_D_0_395,      0xc0d030c8 },
   { DEVICE_HTL21_1_29_970_1,       0xc0d1d944 },
   { DEVICE_HTL22_1_05_970_1,       0xc0df467c },
+  { DEVICE_HTL22_1_07_970_4,       0xc0df52bc },
   { DEVICE_HTX21_1_20_971_1,       0xc0ccc0b4 },
   { DEVICE_LT26W_1266_3278_6_2_B_0_200, 0xc0cc3dc0 },
   { DEVICE_N05E_A1000311,          0xc0f58700 },
