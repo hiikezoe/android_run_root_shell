@@ -9,6 +9,9 @@ typedef struct _supported_device {
 
 static supported_device supported_devices[] = {
   { DEVICE_IS17SH_01_00_04,    0xc0208a34 },
+  { DEVICE_SC01E_LJ3,          0xc0192124 },
+  { DEVICE_SC04E_MDI,          0xc011383c },
+  { DEVICE_SC04E_MF1,          0xc01138a4 },
   { DEVICE_SH04E_01_00_02,     0xc00e458c },
   { DEVICE_SH04E_01_00_03,     0xc00e46bc },
   { DEVICE_SO01E_9_1_C_0_473,  0xc010e1f4 },

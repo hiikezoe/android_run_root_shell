@@ -12,7 +12,10 @@ static supported_device supported_devices[] = {
 
   { DEVICE_F11D_V24R40A,           0xc1056998 },
   { DEVICE_ISW12K_010_0_3000,      0xc0dc0a10 },
-  { DEVICE_SCL21_KDALJD,           0xc0c71dc0 },
+  { DEVICE_SCL21_LJD,              0xc0c71dc0 },
+  { DEVICE_SC01E_LJ3,              0xc10a5a48 },
+  { DEVICE_SC04E_MDI,              0xc1169808 },
+  { DEVICE_SC04E_MF1,              0xc1169848 },
 
   // ISW13F: Fujitsu added a method in struct file_operations
   { DEVICE_ISW13F_V69R51I,         0xc09fc5fc + 4 },
