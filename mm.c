@@ -32,6 +32,7 @@ static supported_device supported_devices[] = {
   { DEVICE_C6603_1269_5309_10_1_1_A_1_307,  0xc0109894 },
   { DEVICE_C6603_1275_1562_10_1_1_A_1_253,  0xc0109894 },
   { DEVICE_C5302_1272_1092_12_0_A_1_284,    0xc011445c },
+  { DEVICE_C6503_1266_7597_10_3_A_0_423,	0xc0112668 },
   { DEVICE_N05E_A1000311,                   0xc0105800 },
 };
 
