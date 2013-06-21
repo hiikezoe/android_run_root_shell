@@ -24,7 +24,7 @@ static supported_device supported_devices[] = {
   { DEVICE_L02E_V10c,               "L-02E",            "IMM76L",            "ro.build.version.incremental",  "L02E10c.1354024955" },
   { DEVICE_L02E_V10e,               "L-02E",            "IMM76L",            "ro.build.version.incremental",  "L02E10e.1366099439" },
   { DEVICE_L06D_V10k,               "L-06D",            "IMM76D",            "ro.build.version.incremental",  "L06DV10k.4821c158" },
-  { DEVICE_LG_E975,					"LG-E975",			"JZO54K"			 },
+  { DEVICE_LG_E975_V10e,            "LG-E975",          "JZO54K",            "ro.build.version.incremental",  "E97510e.1366300274" },
   { DEVICE_LT26W_1265_3909_6_2_B_0_200, "LT26w",        "6.2.B.0.200",       "ro.semc.version.sw",          "1265-3909" },
   { DEVICE_LT26I_1257_8080_6_2_B_0_211, "LT26i",	"6.2.B.0.211",       "ro.semc.version.cust",          "1257-8080" },
   { DEVICE_C6603_1269_5309_10_1_1_A_1_307, "C6603",	"10.1.1.A.1.307",    "ro.semc.version.cust",          "1270-6704" },
