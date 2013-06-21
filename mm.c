@@ -12,6 +12,7 @@ static supported_device supported_devices[] = {
   { DEVICE_SC01E_LJ3,                       0xc0192124 },
   { DEVICE_SC04E_MDI,                       0xc011383c },
   { DEVICE_SC04E_MF1,                       0xc01138a4 },
+  { DEVICE_SGP321_10_1_1_A_1_307, 			0xc0109be4 },
   { DEVICE_SGP312_10_1_C_0_370,             0xc01090fc },
   { DEVICE_SH04E_01_00_02,                  0xc00e458c },
   { DEVICE_SH04E_01_00_03,                  0xc00e46bc },
