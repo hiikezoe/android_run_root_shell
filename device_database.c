@@ -14,6 +14,7 @@ static supported_device supported_devices[] = {
   { DEVICE_C5302_1272_1092_12_0_A_1_284, "C5302",       "12.0.A.1.284",      "ro.semc.version.cust",          "1272-1092" },
   { DEVICE_C6603_1269_5309_10_1_1_A_1_307, "C6603",     "10.1.1.A.1.307",    "ro.semc.version.cust",          "1270-6704" },
   { DEVICE_C6603_1275_1562_10_1_1_A_1_253, "C6603",     "10.1.1.A.1.253",    "ro.semc.version.cust",          "1275-1562" },
+  { DEVICE_C6503_1266_7597_10_3_A_0_423, "C6503",		"10.3.A.0.423",      "ro.semc.version.sw",          "1266-7597" },
   { DEVICE_F10D_V21R48A,            "F-10D",            "V21R48A"            },
   { DEVICE_F11D_V24R40A,            "F-11D",            "V24R40A"            },
   { DEVICE_HTL21_1_29_970_1,        "HTL21",            "JRO03C"             "ro.aa.romver",                  "1.29.970.1" },
