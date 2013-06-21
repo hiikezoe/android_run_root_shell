@@ -28,6 +28,7 @@ static supported_device supported_devices[] = {
   { DEVICE_SC04E_MF1,                       0xc00960d0, 0xc0095bbc },
   { DEVICE_SGP321_10_1_1_A_1_307, 			0xc0094124, 0xc0093c48 },
   { DEVICE_SGP312_10_1_C_0_370,             0xc009363c, 0xc0093160 },
+  { DEVICE_SGP311_10_1_C_0_370,             0xc009363c, 0xc0093160 },
   { DEVICE_SH04E_01_00_02,                  0xc008d86c, 0xc008d398 },
   { DEVICE_SH04E_01_00_03,                  0xc008d99c, 0xc008d4c8 },
   { DEVICE_SO01E_9_1_C_0_473,               0xc009843c, 0xc0097f60 },
