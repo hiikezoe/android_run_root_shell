@@ -11,10 +11,16 @@ typedef struct _supported_device {
 } supported_device;
 
 static supported_device supported_devices[] = {
-  { DEVICE_C5302_1272_1092_12_0_A_1_284, "C5302",       "12.0.A.1.284",      "ro.semc.version.cust",          "1272-1092" },
-  { DEVICE_C6603_1269_5309_10_1_1_A_1_307, "C6603",     "10.1.1.A.1.307",    "ro.semc.version.cust",          "1270-6704" },
-  { DEVICE_C6603_1275_1562_10_1_1_A_1_253, "C6603",     "10.1.1.A.1.253",    "ro.semc.version.cust",          "1275-1562" },
-  { DEVICE_C6503_1266_7597_10_3_A_0_423, "C6503",		"10.3.A.0.423",      "ro.semc.version.sw",          "1266-7597" },
+  { DEVICE_C5302_12_0_A_1_284, "C5302",       "12.0.A.1.284" }, // 1272-1092
+  { DEVICE_C5303_12_0_A_1_284, "C5303",	"12.0.A.1.284" },
+  { DEVICE_C5306_12_0_A_1_284, "C5306",	"12.0.A.1.284" },
+  { DEVICE_C6603_10_1_1_A_1_307, "C6603",     "10.1.1.A.1.307" }, //1270-6704
+  { DEVICE_C6602_10_1_1_A_1_307, "C6602",	"10.1.1.A.1.307" },
+  { DEVICE_C6603_10_1_1_A_1_253, "C6603",     "10.1.1.A.1.253" }, //1275-1562
+  { DEVICE_C6602_10_1_1_A_1_253, "C6602",     "10.1.1.A.1.253" },
+  { DEVICE_C6503_10_3_A_0_423, "C6503",		"10.3.A.0.423" }, //1266-7597
+  { DEVICE_C6502_10_3_A_0_423, "C6502",	"10.3.A.0.423" },
+  { DEVICE_C6506_10_3_A_0_423, "C6506",	"10.3.A.0.423" },
   { DEVICE_F10D_V21R48A,            "F-10D",            "V21R48A"            },
   { DEVICE_F11D_V24R40A,            "F-11D",            "V24R40A"            },
   { DEVICE_HTL21_1_29_970_1,        "HTL21",            "JRO03C"             "ro.aa.romver",                  "1.29.970.1" },
@@ -29,14 +35,17 @@ static supported_device supported_devices[] = {
   { DEVICE_L02E_V10e,               "L-02E",            "IMM76L",            "ro.build.version.incremental",  "L02E10e.1366099439" },
   { DEVICE_L06D_V10k,               "L-06D",            "IMM76D",            "ro.build.version.incremental",  "L06DV10k.4821c158" },
   { DEVICE_LG_E975_V10e,            "LG-E975",          "JZO54K",            "ro.build.version.incremental",  "E97510e.1366300274" },
-  { DEVICE_LT26I_1257_8080_6_2_B_0_211, "LT26i",        "6.2.B.0.211",       "ro.semc.version.cust",          "1257-8080" },
-  { DEVICE_LT26W_1265_3909_6_2_B_0_200, "LT26w",        "6.2.B.0.200",       "ro.semc.version.sw",            "1265-3909" },
+  { DEVICE_LT26I_6_2_B_0_211, "LT26i",        "6.2.B.0.211" }, //1257-8080
+  { DEVICE_LT26W_6_2_B_0_200, "LT26w",        "6.2.B.0.200" }, //1265-3909
   { DEVICE_N05E_A1000311,           "N05E",             "A1000311"           },
   { DEVICE_SC01E_LJ3,               "SC-01E",           "IMM76D.SC01EOMALJ3" },
   { DEVICE_SC04E_MDI,               "SC-04E",           "JDQ39.SC04EOMUAMDI" },
   { DEVICE_SC04E_MF1,               "SC-04E",           "JDQ39.SC04EOMUAMF1" },
   { DEVICE_SCL21_LJD,               "SCL21",            "IMM76D.SCL21KDALJD" },
+  { DEVICE_SGP321_10_1_1_A_1_307,   "SGP321",			"10.1.1.A.1.307"	 },
   { DEVICE_SGP312_10_1_C_0_370,     "SGP312",           "10.1.C.0.370"       },
+  { DEVICE_SGP311_10_1_C_0_370,     "SGP311",           "10.1.C.0.370"       },
+  { DEVICE_LT30P_9_1_A_1_141,	    "LT30p",			"9.1.A.1.141"		 }, //1262-6309
   { DEVICE_SH04E_01_00_02,          "SH-04E",           "01.00.02"           },
   { DEVICE_SH04E_01_00_03,          "SH-04E",           "01.00.03"           },
   { DEVICE_SO01E_9_1_C_0_473,       "SO-01E",           "9.1.C.0.473"        },
