@@ -38,6 +38,7 @@ static supported_device supported_devices[] = {
   { DEVICE_L06D_V10k,               "L-06D",            "IMM76D",            "ro.build.version.incremental",  "L06DV10k.4821c158" },
   { DEVICE_LG_E975_V10e,            "LG-E975",          "JZO54K",            "ro.build.version.incremental",  "E97510e.1366300274" },
   { DEVICE_LT26I_6_2_B_0_211, "LT26i",        "6.2.B.0.211" }, //1257-8080
+  { DEVICE_LT26II_6_2_B_0_211, "LT26ii",      "6.2.B.0.211" },
   { DEVICE_LT26W_6_2_B_0_200, "LT26w",        "6.2.B.0.200" }, //1265-3909
   { DEVICE_N05E_A1000311,           "N05E",             "A1000311"           },
   { DEVICE_SC01E_LJ3,               "SC-01E",           "IMM76D.SC01EOMALJ3" },
