@@ -48,6 +48,8 @@ static supported_device supported_devices[] = {
   { DEVICE_LT26I_6_2_B_0_211,     0xc0cc37e8 },
   { DEVICE_LT26II_6_2_B_0_211,		0xc0cc37e8 },
   { DEVICE_LT22I_6_2_A_1_100, 0xc09dbed8 },
+  { DEVICE_ST27I_6_2_A_1_100, 0xc09b98e0},
+  { DEVICE_ST27A_6_2_A_1_100, 0xc09b98e0},
   { DEVICE_C6603_10_1_1_A_1_307,  0xc0d37488 },
   { DEVICE_C6602_10_1_1_A_1_307, 	0xc0d37488 },
   { DEVICE_C6603_10_1_1_A_1_253,  0xc0d37488 },
