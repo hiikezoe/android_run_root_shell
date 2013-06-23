@@ -46,6 +46,7 @@ static supported_device supported_devices[] = {
   { DEVICE_SGP312_10_1_C_0_370,     "SGP312",           "10.1.C.0.370"       },
   { DEVICE_SGP311_10_1_C_0_370,     "SGP311",           "10.1.C.0.370"       },
   { DEVICE_LT30P_9_1_A_1_141,	    "LT30p",			"9.1.A.1.141"		 }, //1262-6309
+  { DEVICE_LT29i_9_1_B_1_67,	    "LT29i",			"9.1.B.1.67"		 },
   { DEVICE_SH04E_01_00_02,          "SH-04E",           "01.00.02"           },
   { DEVICE_SH04E_01_00_03,          "SH-04E",           "01.00.03"           },
   { DEVICE_SO01E_9_1_C_0_473,       "SO-01E",           "9.1.C.0.473"        },
