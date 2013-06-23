@@ -31,6 +31,7 @@ static supported_device supported_devices[] = {
   { DEVICE_LG_E975_V10e,                    0xc0116598 },
   { DEVICE_LT26W_6_2_B_0_200,     0xc0136294 },
   { DEVICE_LT26I_6_2_B_0_211,     0xc0135650 },
+  { DEVICE_LT26II_6_2_B_0_211, 0xc0135650 },
   { DEVICE_C6603_10_1_1_A_1_307,  0xc0109894 },
   { DEVICE_C6602_10_1_1_A_1_307, 0xc0109894 },
   { DEVICE_C6603_10_1_1_A_1_253,  0xc0109894 },
