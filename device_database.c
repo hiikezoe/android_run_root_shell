@@ -41,6 +41,7 @@ static supported_device supported_devices[] = {
   { DEVICE_LT26II_6_2_B_0_211, "LT26ii",      "6.2.B.0.211" },
   { DEVICE_LT26W_6_2_B_0_200, "LT26w",        "6.2.B.0.200" }, //1265-3909
   { DEVICE_LT26W_6_2_B_0_211, "LT26w",        "6.2.B.0.211" },
+  { DEVICE_LT22I_6_2_A_1_100, "LT22i",        "6.2.A.1.100" },
   { DEVICE_N05E_A1000311,           "N05E",             "A1000311"           },
   { DEVICE_SC01E_LJ3,               "SC-01E",           "IMM76D.SC01EOMALJ3" },
   { DEVICE_SC04E_MDI,               "SC-04E",           "JDQ39.SC04EOMUAMDI" },
