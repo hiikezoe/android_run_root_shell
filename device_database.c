@@ -24,6 +24,7 @@ static supported_device supported_devices[] = {
   { DEVICE_F10D_V21R48A,            "F-10D",            "V21R48A"            },
   { DEVICE_F11D_V24R40A,            "F-11D",            "V24R40A"            },
   { DEVICE_FJL21_V23R39X,           "FJL21",            "V23R39X"            },
+  { DEVICE_FJL21_V37R47A,           "FJL21",            "V37R47A"            },
   { DEVICE_HTL21_1_29_970_1,        "HTL21",            "JRO03C"             "ro.aa.romver",                  "1.29.970.1" },
   { DEVICE_HTL22_1_05_970_1,        "HTL22",            "JZO54K"             "ro.aa.romver",                  "1.05.970.1" },
   { DEVICE_HTL22_1_07_970_4,        "HTL22",            "JZO54K"             "ro.aa.romver",                  "1.07.970.4" },
