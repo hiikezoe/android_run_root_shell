@@ -37,6 +37,7 @@ static supported_device supported_devices[] = {
   { DEVICE_SO04D_7_0_D_1_137,               0xc0c9d8a0 },
   { DEVICE_SO04E_10_1_1_D_0_179,            0xc0f392d8 },
   { DEVICE_SOL22_10_2_F_3_43,               0xc0e389b0 },
+  { DEVICE_SOL21_9_0_F_0_226,               0xc0cffe78 },
   { DEVICE_SOL21_9_1_D_0_395,               0xc0d030c8 },
   { DEVICE_HTL21_1_29_970_1,                0xc0d1d944 },
   { DEVICE_HTL22_1_05_970_1,                0xc0df467c },
