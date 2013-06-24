@@ -67,6 +67,7 @@ static supported_device supported_devices[] = {
   { DEVICE_SO04D_7_0_D_1_137,       "SO-04D",           "7.0.D.1.137"        },
   { DEVICE_SO04E_10_1_1_D_0_179,    "SO-04E",           "10.1.1.D.0.179"     },
   { DEVICE_SO05D_7_0_D_1_137,       "SO-05D",           "7.0.D.1.137"        },
+  { DEVICE_SOL21_9_0_F_0_226,       "SOL21",            "9.0.F.0.226"        },
   { DEVICE_SOL21_9_1_D_0_395,       "SOL21",            "9.1.D.0.395"        },
   { DEVICE_SOL22_10_2_F_3_43,       "SOL22",            "10.2.F.3.43"        },
   { DEVICE_SONYTABLET_P_RELEASE5A,  "Sony Tablet P",    "TISU0144"           },
