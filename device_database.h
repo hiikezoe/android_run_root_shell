@@ -62,6 +62,7 @@ typedef enum {
   DEVICE_SONYTABLET_P_RELEASE5A,
   DEVICE_SONYTABLET_S_RELEASE5A,
   DEVICE_NEXUS4_JDQ39,
+  DEVICE_NEXUS_JOP40C,
 } device_id_t;
 
 extern device_id_t detect_device(void);
