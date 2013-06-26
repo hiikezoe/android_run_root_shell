@@ -58,7 +58,7 @@ static supported_device supported_devices[] = {
   { DEVICE_N05E_A1000311,                   0xc0105800 },
   { DEVICE_NEXUS4_JDQ39,          0xc00f8114 },
   { DEVICE_NEXUS_JOP40C,                 0xc01350b0 },
-  { DEVICE_NEC_101T, 0xc013cccc }
+  { DEVICE_NEC_101T, 0xc013cccc },
   { DEVICE_NEXUS_JZO54K, 0xc013509c },
 };
 
