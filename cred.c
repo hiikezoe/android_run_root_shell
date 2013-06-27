@@ -15,87 +15,14 @@
 #include "libperf_event_exploit/perf_event.h"
 #include "device_database/device_database.h"
 
-typedef struct _supported_device {
-  device_id_t device_id;
-  unsigned long int prepare_kernel_cred_address;
-  unsigned long int commit_creds_address;
-} supported_device;
-
-static supported_device supported_devices[] = {
-  { DEVICE_IS17SH_01_00_04,                 0xc01c66a8, 0xc01c5fd8 },
-  { DEVICE_SC01E_LJ3,                       0xc01244b8, 0xc0123d6c },
-  { DEVICE_SC04E_MDI,                       0xc0096068, 0xc0095b54 },
-  { DEVICE_SC04E_MF1,                       0xc00960d0, 0xc0095bbc },
-  { DEVICE_SGP321_10_1_1_A_1_307, 			0xc0094124, 0xc0093c48 },
-  { DEVICE_SGP312_10_1_C_0_370,             0xc009363c, 0xc0093160 },
-  { DEVICE_SGP311_10_1_C_0_370,             0xc009363c, 0xc0093160 },
-  { DEVICE_SH04E_01_00_02,                  0xc008d86c, 0xc008d398 },
-  { DEVICE_SH04E_01_00_03,                  0xc008d99c, 0xc008d4c8 },
-  { DEVICE_SO01E_9_1_C_0_473,               0xc009843c, 0xc0097f60 },
-  { DEVICE_SO02E_10_1_D_0_343,              0xc009ca34, 0xc009c558 },
-  { DEVICE_SO03E_10_1_E_0_265,              0xc00938a0, 0xc00933c4 },
-  { DEVICE_SO03E_10_1_E_0_269,              0xc00938b0, 0xc00933d4 },
-  { DEVICE_SO04E_10_1_1_D_0_179,            0xc009d500, 0xc009d024 },
-  { DEVICE_SOL21_9_1_D_0_395,               0xc0098584, 0xc00980a8 },
-  { DEVICE_SOL22_10_2_F_3_43,               0xc009d3f8, 0xc009cf1c },
-  { DEVICE_HTL21_1_29_970_1,                0xc00ab9d8, 0xc00ab4c4 },
-  { DEVICE_HTL22_1_05_970_1,                0xc00b2688, 0xc00b2174 },
-  { DEVICE_HTL22_1_07_970_4,                0xc00b26a0, 0xc00b218c },
-  { DEVICE_HTX21_1_20_971_1,                0xc00a6e54, 0xc00a6940 },
-  { DEVICE_LG_E975_V10e,                    0xc00a0f90, 0xc00a0b6c },
-  { DEVICE_LT26W_6_2_B_0_200,     0xc00b261c, 0xc00b2140 },
-  { DEVICE_LT26W_6_2_B_0_211, 0xc00b262c, 0xc00b2150 },
-  { DEVICE_LT26I_6_2_B_0_211,     0xc00b19d8, 0xc00b14fc },
-  { DEVICE_LT26II_6_2_B_0_211, 0xc00b19d8, 0xc00b14fc },
-  { DEVICE_LT22I_6_2_A_1_100 , 0xc00c37c8 ,0xc00c33f8},
-  { DEVICE_ST27I_6_2_A_1_100, 0xc00c314c, 0xc00c2d7c},
-  { DEVICE_ST27A_6_2_A_1_100, 0xc00c314c, 0xc00c2d7c},
-  { DEVICE_C6603_10_1_1_A_1_307,  0xc0093dd4, 0xc00938f8 },
-  { DEVICE_C6602_10_1_1_A_1_307, 0xc0093dd4, 0xc00938f8 },
-  { DEVICE_C6603_10_1_1_A_1_253,  0xc0093dd4, 0xc00938f8 },
-  { DEVICE_C6602_10_1_1_A_1_253, 0xc0093dd4, 0xc00938f8 },
-  { DEVICE_C5302_12_0_A_1_284,    0xc009ec08, 0xc009e72c },
-  { DEVICE_C5303_12_0_A_1_284, 0xc009ec08, 0xc009e72c },
-  { DEVICE_C5306_12_0_A_1_284, 0xc009ec08, 0xc009e72c },
-  { DEVICE_C5303_12_0_A_1_257, 0xc009ec08, 0xc009e72c },
-  { DEVICE_C5302_12_0_A_1_257, 0xc009ec08, 0xc009e72c },
-  { DEVICE_M35H_12_0_A_1_257, 0xc009ec08, 0xc009e72c },
-  { DEVICE_C6503_10_3_A_0_423,	0xc009ae60, 0xc009a984 },
-  { DEVICE_C6502_10_3_A_0_423, 0xc009ae60, 0xc009a984 },
-  { DEVICE_C6506_10_3_A_0_423, 0xc009ae60, 0xc009a984 },
-  { DEVICE_LT30P_9_1_A_1_141, 0xc0094878, 0xc009439c },
-  { DEVICE_LT30P_9_1_A_1_142, 0xc0094878, 0xc009439c},
-  { DEVICE_LT29I_9_1_B_0_411, 0xc0095dec, 0xc0095910 },
-  { DEVICE_LT29I_9_1_B_1_67, 0xc0095ca4, 0xc00957c8 },
-  { DEVICE_LT25I_9_1_A_1_140, 0xc0097f20, 0xc0097a44},
-  { DEVICE_LT25I_9_1_A_1_142, 0xc0097dd8, 0xc00978fc},
-  { DEVICE_N05E_A1000311,                   0xc0094430, 0xc0093ebc },
-  { DEVICE_NEXUS4_JDQ39, 0xc0089990, 0xc0089678 },
-  { DEVICE_NEXUS_JOP40C,                 0xc00cdef0, 0xc00cdbb8 },
-  { DEVICE_NEC_101T, 0xc00fa134, 0xc00fa28c },
-  { DEVICE_NEXUS_JZO54K, 0xc00cdee0, 0xc00cdba8 },
-};
-
-static int n_supported_devices = sizeof(supported_devices) / sizeof(supported_devices[0]);
-
 static bool
 get_creds_functions_addresses(void **prepare_kernel_cred_address, void **commit_creds_address)
 {
-  int i;
-  device_id_t device_id;
+  *prepare_kernel_cred_address = (void *)device_get_symbol_address(DEVICE_SYMBOL(prepare_kernel_cred));
+  *commit_creds_address = (void*)device_get_symbol_address(DEVICE_SYMBOL(commit_creds));
 
-  device_id = detect_device();
-
-  for (i = 0; i < n_supported_devices; i++) {
-    if (supported_devices[i].device_id == device_id){
-      if (prepare_kernel_cred_address) {
-        *prepare_kernel_cred_address = (void*)supported_devices[i].prepare_kernel_cred_address;
-      }
-      if (commit_creds_address) {
-        *commit_creds_address = (void*)supported_devices[i].commit_creds_address;
-      }
-      return true;
-    }
+  if (*prepare_kernel_cred_address && *commit_creds_address) {
+    return true;
   }
 
   print_reason_device_not_supported();
