@@ -10,3 +10,6 @@
 [submodule "libmsm_acdb_exploit"]
 	path = libmsm_acdb_exploit
 	url = git://github.com/fi01/libmsm_acdb_exploit.git
+[submodule "libfj_hdcp_exploit"]
+	path = libfj_hdcp_exploit
+	url = git://github.com/fi01/libfj_hdcp_exploit.git

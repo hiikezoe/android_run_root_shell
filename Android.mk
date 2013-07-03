@@ -16,6 +16,7 @@ LOCAL_STATIC_LIBRARIES := libdiagexploit
 LOCAL_STATIC_LIBRARIES += libdevice_database
 LOCAL_STATIC_LIBRARIES += libperf_event_exploit
 LOCAL_STATIC_LIBRARIES += libmsm_acdb_exploit
+LOCAL_STATIC_LIBRARIES += libfj_hdcp_exploit
 LOCAL_STATIC_LIBRARIES += libcutils libc
 
 include $(BUILD_EXECUTABLE)
