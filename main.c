@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include <sys/system_properties.h>
 #include "cred.h"
 #include "mm.h"
 #include "ptmx.h"
@@ -112,6 +113,18 @@ run_exploit(void)
   return attempt_diag_exploit(ptmx_fsync_address);
 }
 
+void
+device_detected(void)
+{
+  char device[PROP_VALUE_MAX];
+  char build_id[PROP_VALUE_MAX];
+
+  __system_property_get("ro.product.model", device);
+  __system_property_get("ro.build.display.id", build_id);
+
+  printf("\n\nDevice detected: %s (%s)\n\n", device, build_id);
+}
+
 int
 main(int argc, char **argv)
 {
@@ -124,6 +137,8 @@ main(int argc, char **argv)
       }
     }
   }
+
+  device_detected();
 
   set_kernel_phys_offset(0x200000);
   remap_pfn_range = get_remap_pfn_range_address();
