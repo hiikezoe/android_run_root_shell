@@ -33,7 +33,7 @@ Running
 * Extract into some directory and put the platform-tools folder in your path:
 	`export PATH=SDK_DIR/sdk/platform-tools/:$PATH`
 
-* Change to the directory with the combiled run_root_shell binary (see above)
+* Change to the directory with the compiled run_root_shell binary (see above)
 
 * Connect your Android device through USB (click Cancel if it asks to enable USB storage; charging only is the correct mode) and enable USB debugging on the device.
 
