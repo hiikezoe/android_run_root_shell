@@ -1,6 +1,6 @@
 [submodule "libdiagexploit"]
 	path = libdiagexploit
-	url = git://github.com/hiikezoe/libdiagexploit.git
+	url = git://github.com/android-rooting-tools/libdiagexploit.git
 [submodule "device_database"]
 	path = device_database
 	url = git://github.com/android-rooting-tools/android_device_database.git
