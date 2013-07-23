@@ -19,6 +19,10 @@ LOCAL_STATIC_LIBRARIES += libmsm_acdb_exploit
 LOCAL_STATIC_LIBRARIES += libfj_hdcp_exploit
 LOCAL_STATIC_LIBRARIES += libcutils libc
 
+TOP_SRCDIR := $(abspath $(LOCAL_PATH))
+TARGET_C_INCLUDES += \
+  $(TOP_SRCDIR)/device_database
+
 include $(BUILD_EXECUTABLE)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
