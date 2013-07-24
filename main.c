@@ -29,12 +29,13 @@ static bool
 run_obtain_root_privilege(void *user_data)
 {
   int fd;
+  int ret;
 
   fd = open(PTMX_DEVICE, O_WRONLY);
-  fsync(fd);
+  ret = fsync(fd);
   close(fd);
 
-  return true;
+  return (ret == 0);
 }
 
 static bool
