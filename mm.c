@@ -17,7 +17,7 @@ int (*remap_pfn_range)(struct vm_area_struct *, unsigned long addr,
                        unsigned long pfn, unsigned long size, pgprot_t);
 
 bool
-get_remap_pfn_range_address(void)
+setup_remap_pfn_range_address(void)
 {
   if (remap_pfn_range) {
     return true;
@@ -161,14 +161,14 @@ run_with_mmap(mmap_callback_t callback)
     return result;
   }
 
-  get_remap_pfn_range_address();
+  setup_remap_pfn_range_address();
 
   if (!remap_pfn_range) {
     printf("You need to manage to get remap_pfn_range addresses.\n");
     return false;
   }
 
-  get_ptmx_fops_mmap_address();
+  setup_ptmx_fops_mmap_address();
   if (!ptmx_fops_mmap_address) {
     printf("You need to manage to get ptmx_fops addresses.\n");
     return false;

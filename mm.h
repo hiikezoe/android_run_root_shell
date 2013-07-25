@@ -40,7 +40,7 @@ struct vm_area_struct {
 
 typedef bool (*mmap_callback_t)(void *mem, size_t length);
 
-extern bool get_remap_pfn_range_address(void);
+extern bool setup_remap_pfn_range_address(void);
 extern bool run_with_mmap(mmap_callback_t callback);
 
 extern void set_kernel_phys_offset(unsigned long int offset);

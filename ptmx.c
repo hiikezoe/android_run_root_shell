@@ -9,7 +9,7 @@ unsigned long int ptmx_fops_mmap_address;
 unsigned long int ptmx_fops_fsync_address;
 
 bool
-get_ptmx_fops_address(void)
+setup_ptmx_fops_address(void)
 {
   if (ptmx_fops) {
     return true;
@@ -25,10 +25,10 @@ get_ptmx_fops_address(void)
 }
 
 bool
-get_ptmx_fops_mmap_address(void)
+setup_ptmx_fops_mmap_address(void)
 {
   if (!ptmx_fops) {
-    get_ptmx_fops_address();
+    setup_ptmx_fops_address();
     if (!ptmx_fops) {
       return false;
     }
@@ -39,10 +39,10 @@ get_ptmx_fops_mmap_address(void)
 }
 
 bool
-get_ptmx_fops_fsync_address(void)
+setup_ptmx_fops_fsync_address(void)
 {
   if (!ptmx_fops) {
-    get_ptmx_fops_address();
+    setup_ptmx_fops_address();
     if (!ptmx_fops) {
       return false;
     }
@@ -53,7 +53,7 @@ get_ptmx_fops_fsync_address(void)
 }
 
 bool
-get_ptmx_fops_address_in_memory(void *mem, size_t length, find_ptmx_fops_hint_t  *hint)
+setup_ptmx_fops_address_in_memory(void *mem, size_t length, find_ptmx_fops_hint_t  *hint)
 {
   unsigned long int pattern[16];
   void *address;

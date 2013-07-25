@@ -27,11 +27,11 @@ struct task_struct;
 typedef struct cred *(*prepare_kernel_cred_t)(struct task_struct *);
 typedef int (*commit_creds_t)(struct cred *);
 
-extern bool get_prepare_kernel_cred_address();
-extern bool get_commit_creds_address();
+extern bool setup_prepare_kernel_cred_address();
+extern bool setup_commit_creds_address();
 
-extern bool get_prepare_kernel_cred_address_in_memory(void *mem, size_t length);
-extern bool get_commit_creds_address_in_memory(void *mem, size_t length);
+extern bool setup_prepare_kernel_cred_address_in_memory(void *mem, size_t length);
+extern bool setup_commit_creds_address_in_memory(void *mem, size_t length);
 
 extern prepare_kernel_cred_t prepare_kernel_cred;
 extern commit_creds_t commit_creds;

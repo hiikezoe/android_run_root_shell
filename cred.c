@@ -10,7 +10,7 @@ prepare_kernel_cred_t prepare_kernel_cred;
 commit_creds_t commit_creds;
 
 bool
-get_prepare_kernel_cred_address(void)
+setup_prepare_kernel_cred_address(void)
 {
   if (prepare_kernel_cred) {
     return true;
@@ -26,7 +26,7 @@ get_prepare_kernel_cred_address(void)
 }
 
 bool
-get_commit_creds_address(void)
+setup_commit_creds_address(void)
 {
   if (commit_creds) {
     return true;
@@ -84,7 +84,7 @@ find_commit_creds_address_in_memory(void *mem, size_t length)
 }
 
 bool
-get_prepare_kernel_cred_address_in_memory(void *mem, size_t length)
+setup_prepare_kernel_cred_address_in_memory(void *mem, size_t length)
 {
   if (prepare_kernel_cred) {
     return true;
@@ -94,7 +94,7 @@ get_prepare_kernel_cred_address_in_memory(void *mem, size_t length)
 }
 
 bool
-get_commit_creds_address_in_memory(void *mem, size_t length)
+setup_commit_creds_address_in_memory(void *mem, size_t length)
 {
   if (commit_creds) {
     return true;

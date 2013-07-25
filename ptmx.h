@@ -29,12 +29,12 @@ typedef struct _find_ptmx_fops_hint_t {
   unsigned long int tty_fasync_address;
 } find_ptmx_fops_hint_t;
 
-extern bool get_ptmx_fops_address(void);
-extern bool get_ptmx_fops_mmap_address(void);
-extern bool get_ptmx_fops_fsync_address(void);
+extern bool setup_ptmx_fops_address(void);
+extern bool setup_ptmx_fops_mmap_address(void);
+extern bool setup_ptmx_fops_fsync_address(void);
 
-extern bool get_ptmx_fops_address_in_memory(void *mem, size_t length,
-                                            find_ptmx_fops_hint_t  *hint);
+extern bool setup_ptmx_fops_address_in_memory(void *mem, size_t length,
+                                              find_ptmx_fops_hint_t  *hint);
 
 extern void *ptmx_fops;
 extern unsigned long int ptmx_fops_mmap_address;
