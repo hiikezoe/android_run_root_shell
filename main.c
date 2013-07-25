@@ -102,7 +102,7 @@ bool find_variables_in_memory(void *mem, size_t length)
       ptmx_fops = (void *)kallsyms_in_memory_lookup_name("ptmx_fops");
 
       if (!ptmx_fops) {
-	find_ptmx_fops_address(mem, length);
+        find_ptmx_fops_address(mem, length);
       }
     }
 
