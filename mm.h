@@ -18,6 +18,12 @@
 #ifndef MM_H
 #define MM_H
 
+#include <stdbool.h>
+#include <stdio.h>
+
+#define PAGE_OFFSET 0xc0000000
+#define KERNEL_SIZE 0x10000000
+
 struct file;
 
 typedef struct {
@@ -32,13 +38,17 @@ struct vm_area_struct {
   /* ... */
 };
 
-int (*remap_pfn_range)(struct vm_area_struct *, unsigned long addr,
-                       unsigned long pfn, unsigned long size, pgprot_t);
+typedef bool (*mmap_callback_t)(void *mem, size_t length);
 
-void *get_remap_pfn_range_address(void);
+extern bool get_remap_pfn_range_address(void);
+extern bool run_with_mmap(mmap_callback_t callback);
 
-void set_kernel_phys_offset(unsigned long int offset);
-int ptmx_mmap(struct file *filep, struct vm_area_struct *vma);
+extern void set_kernel_phys_offset(unsigned long int offset);
+extern void *convert_to_kernel_address(void *address, void *mmap_base_address);
+extern void *convert_to_mmaped_address(void *address, void *mmap_base_address);
+
+extern int (*remap_pfn_range)(struct vm_area_struct *, unsigned long addr,
+                              unsigned long pfn, unsigned long size, pgprot_t);
 
 #endif /* MM_H */
 /*
