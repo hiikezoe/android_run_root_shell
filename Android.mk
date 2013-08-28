@@ -7,13 +7,13 @@ LOCAL_SRC_FILES := \
   kallsyms.c \
   main.c \
   mm.c \
-  ptmx.c \
-  exploit.c
+  ptmx.c
 
 LOCAL_MODULE := run_root_shell
 LOCAL_MODULE_TAGS := optional
-LOCAL_STATIC_LIBRARIES := libdiagexploit
-LOCAL_STATIC_LIBRARIES += libdevice_database
+LOCAL_STATIC_LIBRARIES := libdevice_database
+LOCAL_STATIC_LIBRARIES += libexploit
+LOCAL_STATIC_LIBRARIES += libdiagexploit
 LOCAL_STATIC_LIBRARIES += libperf_event_exploit
 LOCAL_STATIC_LIBRARIES += libmsm_acdb_exploit
 LOCAL_STATIC_LIBRARIES += libfj_hdcp_exploit

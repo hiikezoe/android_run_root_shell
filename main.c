@@ -14,7 +14,7 @@
 #include "cred.h"
 #include "mm.h"
 #include "ptmx.h"
-#include "exploit.h"
+#include "libexploit/exploit.h"
 #include "libkallsyms/kallsyms_in_memory.h"
 
 void

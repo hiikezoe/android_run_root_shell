@@ -19,3 +19,6 @@
 [submodule "libfb_mem_exploit"]
 	path = libfb_mem_exploit
 	url = https://github.com/android-rooting-tools/libfb_mem_exploit.git
+[submodule "libexploit"]
+	path = libexploit
+	url = https://github.com/android-rooting-tools/libexploit.git

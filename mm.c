@@ -3,12 +3,14 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
-#include "exploit.h"
 #include "kallsyms.h"
 #include "mm.h"
 #include "ptmx.h"
-#include "libdiagexploit/diag.h"
+#include "libexploit/exploit.h"
 #include "device_database/device_database.h"
+
+#define PAGE_OFFSET     0xc0000000
+#define KERNEL_SIZE     0x02000000
 
 
 static unsigned long int kernel_phys_offset;

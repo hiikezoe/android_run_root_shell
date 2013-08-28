@@ -20,9 +20,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-
-#define PAGE_OFFSET 0xc0000000
-#define KERNEL_SIZE 0x10000000
+#include <libexploit/exploit.h>
 
 struct file;
 
