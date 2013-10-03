@@ -22,3 +22,6 @@
 [submodule "libexploit"]
 	path = libexploit
 	url = https://github.com/android-rooting-tools/libexploit.git
+[submodule "libmsm_cameraconfig_exploit"]
+	path = libmsm_cameraconfig_exploit
+	url = git://github.com/fi01/libmsm_cameraconfig_exploit.git

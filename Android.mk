@@ -18,6 +18,7 @@ LOCAL_STATIC_LIBRARIES += libperf_event_exploit
 LOCAL_STATIC_LIBRARIES += libmsm_acdb_exploit
 LOCAL_STATIC_LIBRARIES += libfj_hdcp_exploit
 LOCAL_STATIC_LIBRARIES += libfb_mem_exploit
+LOCAL_STATIC_LIBRARIES += libmsm_cameraconfig_exploit
 LOCAL_STATIC_LIBRARIES += libkallsyms
 LOCAL_STATIC_LIBRARIES += libcutils libc
 LOCAL_LDFLAGS += -static
