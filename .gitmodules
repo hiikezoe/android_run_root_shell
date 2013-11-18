@@ -25,3 +25,6 @@
 [submodule "libmsm_cameraconfig_exploit"]
 	path = libmsm_cameraconfig_exploit
 	url = git://github.com/fi01/libmsm_cameraconfig_exploit.git
+[submodule "libput_user_exploit"]
+	path = libput_user_exploit
+	url = https://github.com/fi01/libput_user_exploit.git
