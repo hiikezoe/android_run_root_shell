@@ -28,3 +28,6 @@
 [submodule "libput_user_exploit"]
 	path = libput_user_exploit
 	url = https://github.com/fi01/libput_user_exploit.git
+[submodule "libget_user_exploit"]
+	path = libget_user_exploit
+	url = https://github.com/fi01/libget_user_exploit.git

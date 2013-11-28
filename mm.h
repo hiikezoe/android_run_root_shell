@@ -36,10 +36,11 @@ struct vm_area_struct {
   /* ... */
 };
 
-typedef bool (*mmap_callback_t)(void *mem, size_t length);
+typedef bool (*memory_callback_t)(void *mem, size_t length);
 
 extern bool setup_remap_pfn_range_address(void);
-extern bool run_with_mmap(mmap_callback_t callback);
+extern bool run_with_mmap(memory_callback_t callback);
+extern bool run_with_memcpy(memory_callback_t callback);
 
 extern void set_kernel_phys_offset(unsigned long int offset);
 extern void *convert_to_kernel_address(void *address, void *mmap_base_address);
