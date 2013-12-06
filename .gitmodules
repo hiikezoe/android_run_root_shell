@@ -31,3 +31,6 @@
 [submodule "libget_user_exploit"]
 	path = libget_user_exploit
 	url = https://github.com/fi01/libget_user_exploit.git
+[submodule "libsqlite"]
+	path = libsqlite
+	url = https://github.com/android-rooting-tools/android_libsqlite.git
