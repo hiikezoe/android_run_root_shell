@@ -11,6 +11,7 @@
 #include <fcntl.h>
 
 #include <sys/system_properties.h>
+#include "device_database.h"
 #include "cred.h"
 #include "mm.h"
 #include "ptmx.h"
@@ -144,6 +145,12 @@ setup_variables(void)
     printf("  prepare_kernel_cred = %p\n", prepare_kernel_cred);
     printf("  commit_creds = %p\n", commit_creds);
     printf("  ptmx_fops = %p\n", ptmx_fops);
+
+#ifdef HAS_SET_SYMBOL_ADDRESS
+    device_set_symbol_address(DEVICE_SYMBOL(prepare_kernel_cred), (unsigned long int)prepare_kernel_cred);
+    device_set_symbol_address(DEVICE_SYMBOL(commit_creds), (unsigned long int)commit_creds);
+    device_set_symbol_address(DEVICE_SYMBOL(ptmx_fops), (unsigned long int)ptmx_fops);
+#endif /* HAS_SET_SYMBOL_ADDRESS */
 
     return true;
   }
