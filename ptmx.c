@@ -55,19 +55,26 @@ setup_ptmx_fops_fsync_address(void)
 bool
 setup_ptmx_fops_address_in_memory(void *mem, size_t length, find_ptmx_fops_hint_t  *hint)
 {
-  unsigned long int pattern[16];
-  void *address;
+  int i;
 
-  memset(pattern, 0, sizeof pattern);
-  pattern[2] = hint->ptmx_open_address;
-  pattern[4] = hint->tty_release_address;
-  pattern[7] = hint->tty_fasync_address;
+  for (i = 0x24; i < length - 0x40; i += 4) {
+    unsigned long int *address = mem + i;
 
-  address = memmem(mem, length, pattern, sizeof pattern);
-  if (!address) {
-    return false;
+    if (address[2] != hint->ptmx_open_address) {
+      continue;
+    }
+
+    if (address[4] != hint->tty_release_address) {
+      continue;
+    }
+
+    if (address[7] != hint->tty_fasync_address) {
+      continue;
+    }
+
+    ptmx_fops = (void *)convert_to_kernel_address(address, mem) - 0x24;
+    return true;
   }
 
-  ptmx_fops = (void *)convert_to_kernel_address(address, mem) - 0x24;
-  return true;
+  return false;
 }
