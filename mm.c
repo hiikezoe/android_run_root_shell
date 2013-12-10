@@ -166,13 +166,13 @@ run_with_mmap(memory_callback_t callback)
   setup_remap_pfn_range_address();
 
   if (!remap_pfn_range) {
-    printf("You need to manage to get remap_pfn_range addresses.\n");
+    printf("You need to manage to get remap_pfn_range address.\n");
     return false;
   }
 
   setup_ptmx_fops_mmap_address();
   if (!ptmx_fops_mmap_address) {
-    printf("You need to manage to get ptmx_fops addresses.\n");
+    printf("You need to manage to get ptmx_fops address.\n");
     return false;
   }
 
@@ -181,7 +181,7 @@ run_with_mmap(memory_callback_t callback)
     set_kernel_phys_offset(kernel_physical_offset - 0x00008000);
   }
   else if (!detect_kernel_phys_parameters()) {
-    printf("You need to manage to get kernel_physical_offset addresses.\n");
+    printf("You need to manage to get kernel_physical_offset address.\n");
     return false;
   }
 

@@ -156,15 +156,15 @@ setup_variables(void)
   }
 
   if (!prepare_kernel_cred) {
-    printf("Failed to get prepare_kernel_cred addresses.\n");
+    printf("Failed to get prepare_kernel_cred address.\n");
   }
 
   if (!commit_creds) {
-    printf("Failed to get commit_creds addresses.\n");
+    printf("Failed to get commit_creds address.\n");
   }
 
   if (!ptmx_fops) {
-    printf("Failed to get ptmx_fops addresses.\n");
+    printf("Failed to get ptmx_fops address.\n");
   }
 
   print_reason_device_not_supported();
