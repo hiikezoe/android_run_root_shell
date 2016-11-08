@@ -264,11 +264,11 @@ bool find_variables_in_memory(void *mem, size_t length)
 {
   kallsyms *info;
 
-  printf("Search address in memroy...\n");
+  printf("Search address in memory...\n");
 
   info = kallsyms_in_memory_init(mem, length);
   if (info) {
-    printf("Using kallsyms_in_memroy...\n");
+    printf("Using kallsyms_in_memory...\n");
 
     if (!prepare_kernel_cred) {
       prepare_kernel_cred = (prepare_kernel_cred_t)kallsyms_in_memory_lookup_name(info, "prepare_kernel_cred");
